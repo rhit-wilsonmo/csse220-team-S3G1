@@ -22,5 +22,6 @@ public class MainApp {
 		GameWindow.show();
 		// Hint: MainApp should not contain game logic or drawing code
 		//Hello World
+		// Hi
 		}
 }
