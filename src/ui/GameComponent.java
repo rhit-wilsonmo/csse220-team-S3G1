@@ -2,6 +2,8 @@ package ui;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JComponent;
 
@@ -29,5 +31,13 @@ public class GameComponent extends JComponent {
 
 
 	// TODO: draw based on model state
+//	addKeyListener(new KeyAdapter() {
+//	    @Override
+//	    public void keyPressed(KeyEvent e) {
+//	      if (e.getKeyCode() == KeyEvent.VK_T) {
+//	        ball.flip();
+////	        ball2.flip();
+//	      }
+//	    }
 	}
 }
