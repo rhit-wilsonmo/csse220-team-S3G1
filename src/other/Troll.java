@@ -7,20 +7,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Player1 implements Collidable{
-
+public class Troll implements Collidable{
 	private int start_y;
 	private int start_x;
 	private int x;
 	private int y;
-	private static final int PLAYER_WIDTH = 100;
-	private static final int PLAYER_HEIGHT=100;
-	private static final int DX = 20;
-	private static final int DY = 20;
+	private static final int TROLL_WIDTH = 100;
+	private static final int TROLL_HEIGHT=100;
+	private int dx = 20;
+	private int dy = 20;
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
 	
-	public Player1(int start_x, int start_y) {
+	public Troll(int start_y, int start_x) {
 		super();
 		this.start_y = start_y;
 		this.start_x = start_x;
@@ -37,7 +36,7 @@ public class Player1 implements Collidable{
 		if (triedLoad) return;
 		triedLoad =true;
 		try {
-			sprite = ImageIO.read(Player1.class.getResource("unicorn image.png"));
+			sprite = ImageIO.read(Player1.class.getResource("troll2.png"));
 		}
 		catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
@@ -49,47 +48,54 @@ public class Player1 implements Collidable{
 	public void draw(Graphics2D g2) {
 		
 		if (sprite != null) {
-			g2.drawImage(sprite, x, y, PLAYER_WIDTH , PLAYER_HEIGHT, null);
+			g2.drawImage(sprite, x, y, TROLL_WIDTH , TROLL_HEIGHT, null);
 		} else {
 		g2.setColor(Color.MAGENTA);
-		g2.fillRect(x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
+		g2.fillRect(x, y, TROLL_WIDTH, TROLL_HEIGHT);
 		}
 	}
 	
-	public void move_x_right() {
-		x+= DX;
+	public void move() {
+		x+=dx;
 	}
-	public void move_x_left() {
-		x-= DX;
-	}
-	public void move_y_down() {
-		y += DY;
-	}
-	public void move_y_up() {
-		y -= DY;
-	}
+//	public void move_x_right() {
+//		x+= DX;
+//	}
+//	public void move_x_left() {
+//		x-= DX;
+//	}
+//	public void move_y_down() {
+//		y += DY;
+//	}
+//	public void move_y_up() {
+//		y -= DY;
+//	}
 
 	@Override
 	public void update(int WorldWidth, int WorldHeight) {
-		
+		move();
 		// x
 		if (x < 0) {
 			x = 0;
+			dx=-dx;
 		}
 		
 		// y
 		if (y < 0) {
 			y=0;
+			dy=-dy;
 		}
 		
 		//xl
-		if (x + PLAYER_WIDTH > WorldWidth) {
-			x = WorldWidth- PLAYER_WIDTH;
+		if (x + TROLL_WIDTH > WorldWidth) {
+			x = WorldWidth- TROLL_WIDTH;
+			x=-dx;
 		}
 		
 		//yl
-		if (y + PLAYER_HEIGHT > WorldHeight) {
-			y = WorldHeight- PLAYER_HEIGHT;
+		if (y + TROLL_HEIGHT > WorldHeight) {
+			y = WorldHeight- TROLL_HEIGHT;
+			y=-dy;
 		}
 	}
 }
