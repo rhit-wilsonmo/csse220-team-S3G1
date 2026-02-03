@@ -26,6 +26,10 @@ public class GameComponent extends JComponent {
 	private GameModel model;
 	private Timer timer;
 
+	// for checking whether wall is or not
+	private int nextX;
+	private int nextY;
+	private static final int SIZE = 90;
 //	private Timer timer1;
 //	
 //	private int[][] maze_level_1 = {
@@ -41,57 +45,79 @@ public class GameComponent extends JComponent {
 //			{1,0,1,1,1,1,1,1,1,1},
 //	};
 //
-//	public boolean isWall(int flag) {
-//		
-//	}
-	public GameComponent(GameModel model) {
-	this.model = model;
-//	model.getMaze_level_1();
-	Tile[][] tiles_for_GC = model.getTiles_level_1();
+	public boolean isWall(int flag_value) {
+		System.out.println(flag_value);
+		if(flag_value==0)return true;
+		return false;
+	}
 	
-	timer= new Timer(20,e -> {
-//		bubbles.update(WIDTH, HEIGHT);
+	
+	public GameComponent(GameModel model) {
+		this.model = model;
+//		model.getMaze_level_1();
+//		Tile[][] tiles_for_GC = model.getTiles_level_1();
+	
+		timer= new Timer(20,e -> {
+
+		 
+		 
+		bubbles.update(WIDTH, HEIGHT);
 		troll.update(WIDTH, HEIGHT);
 		
-		for (int i=0; i<10; i++) {
-			for (int j=0; j<10; j++) {
-				if (tiles_for_GC[i][j].getCollision() == true &&tiles_for_GC[i][j].getX() == bubbles.getX()) {
-					bubbles.bounceBack();
-				}
-		
-			}
-		}
+//		for (int i=0; i<10; i++) {
+//			for (int j=0; j<10; j++) {
+//				if (tiles_for_GC[i][j].getCollision() == true &&tiles_for_GC[i][j].getX() == bubbles.getX()) {
+//					bubbles.bounceBack();
+//				}
+//		
+//			}
+//		}
 //		if(isWall(model[bubbles.getX()][bubbles.getY()]))
 //		
 		repaint();
-	});
+		});
 //	timer1= new Timer(20,e -> {
 //		bubbles.update(WIDTH, HEIGHT);
 //		troll.update(WIDTH, HEIGHT);
 //		
 //		repaint();
 //	});
+		
+		timer.start();
+		setFocusable(true);
+		
+		addKeyListener(new KeyAdapter() {
+		    @Override
+		    public void keyPressed(KeyEvent e) {
+		        int col = bubbles.getX() / SIZE;
+		        int row = bubbles.getY() / SIZE;
 	
-	timer.start();
-	setFocusable(true);
-	
-	addKeyListener(new KeyAdapter() {
-	@Override
-	public void keyPressed(KeyEvent e) {
-	  if (e.getKeyCode() == KeyEvent.VK_D) {
-	    bubbles.move_x_right();
-	  }
-	  if (e.getKeyCode() == KeyEvent.VK_A) {
-		    bubbles.move_x_left();
-		  }
-	  if (e.getKeyCode() == KeyEvent.VK_W) {
-		    bubbles.move_y_up();
-		  }
-	  if (e.getKeyCode() == KeyEvent.VK_S) {
-		    bubbles.move_y_down();
-		  }
-	}
-	});
+		        if (e.getKeyCode() == KeyEvent.VK_D) {
+		            int nextCol = col + 1;
+		            if (nextCol < 10 && isWall(model.getMaze_level_1()[row][nextCol])) {
+		                bubbles.move_x_right();
+		            }
+		        }
+		        if (e.getKeyCode() == KeyEvent.VK_A) {
+		            int nextCol = col - 1;
+		            if (nextCol >= 0 && isWall(model.getMaze_level_1()[row][nextCol])) {
+		                bubbles.move_x_left();
+		            }
+		        }
+		        if (e.getKeyCode() == KeyEvent.VK_W) {
+		            int nextRow = row - 1;
+		            if (nextRow >= 0 && isWall(model.getMaze_level_1()[nextRow][col])) {
+		                bubbles.move_y_up();
+		            }
+		        }
+		        if (e.getKeyCode() == KeyEvent.VK_S) {
+		            int nextRow = row + 1;
+		            if (nextRow < 10 && isWall(model.getMaze_level_1()[nextRow][col])) {
+		                bubbles.move_y_down();
+		            }
+		        }
+		    }
+		});
 	}
 
 
@@ -114,8 +140,8 @@ public class GameComponent extends JComponent {
 //	g2.drawString("Final Project Starter: UI is running ✅", 20, 30);
 
 	// TODO: draw based on model state
-
-	}
+//
+}
 //}
 
 

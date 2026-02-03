@@ -18,12 +18,16 @@ public class Player1 implements Collidable{
 	private int start_x;
 	private int x;
 	private int y;
-	private static final int PLAYER_WIDTH = 30;
-	private static final int PLAYER_HEIGHT=30;
-	private static final int DX = 20;
-	private static final int DY = 20;
+	private static final int PLAYER_WIDTH = 90;
+	private static final int PLAYER_HEIGHT=90;
+	private static final int DX = 90;
+	private static final int DY = 90;
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
+	
+	//for check whether wall is or not
+	private int nextX;
+	private int nextY;
 	
 	public Player1(int start_x, int start_y) {
 		super();
@@ -118,5 +122,7 @@ public class Player1 implements Collidable{
 			y = WorldHeight- PLAYER_HEIGHT;
 		}
 	}
+	
+	
 	
 }
