@@ -6,7 +6,7 @@ import ui.GameWindow;
 
 /**
  * Class: MainApp
- * @author Put your team name here
+ * @author Ayaka, Madison, Adeline
  * <br>Purpose: Top level class for CSSE220 Project containing main method 
  * Entry point for the final project.
  */
@@ -21,5 +21,8 @@ public class MainApp {
 	public void run() {
 		GameWindow.show();
 		// Hint: MainApp should not contain game logic or drawing code
+		//Hello World
+		// Hi
+		//Hellooo
 		}
 }
