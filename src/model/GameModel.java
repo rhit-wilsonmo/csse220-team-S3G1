@@ -6,9 +6,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import java.awt.Graphics2D;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 import javax.swing.JComponent;
 
@@ -16,31 +13,61 @@ import other.Tile;
 
 public class GameModel extends JComponent{
 	
-	public GameModel() {
-		File file = new File("level1_finalgame.txt");
-	    try {
-	    	  Scanner scanner = new Scanner(file);
-	    		  int row = 0;
-	    		  while (scanner.hasNextLine()) {
-	    		    String line = scanner.nextLine();
-
-	    		    for (int col = 0; col < line.length(); col++) {
-	    		      char c = line.charAt(col);
-	    		      if (c == 'P') {
-	    		    	  System.out.println(c);
-	    		    	  start_x = col * TILE_SIZE;
-	    		    	  start_y = row * TILE_SIZE;
-	    		  	      
-	    		    }
-	    		    }
-
-	    		    row++;
-	    		  }
-
-	    		  scanner.close();
-	    	} catch (FileNotFoundException e) {
-	    	  System.out.println("level1.txt not found");
-	    	}
+	private Tile[][] tiles_level_1 = new Tile[10][10];
+	private int[][] maze_level_1 = {
+			{1,1,1,1,1,1,1,1,1,1},
+			{1,0,0,0,0,0,0,0,0,1},
+			{1,0,1,1,1,1,1,1,0,1},
+			{1,0,1,0,0,0,0,1,0,1},
+			{1,0,1,0,1,1,0,1,0,1},
+			{1,0,1,0,1,0,0,1,0,1},
+			{1,0,1,0,1,0,0,1,0,1},
+			{1,0,1,0,1,1,1,1,0,1},
+			{1,0,1,0,0,0,0,0,0,1},
+			{1,0,1,1,1,1,1,1,1,1},
+			
+	};
+	
+	public void drawMap(Graphics2D g2, Troll troll) {
+		for (int i =0; i<10;i++) {
+			for (int j= 0; j<10; j++) {
+				if (maze_level_1[i][j]==1) {
+					// new Tile tile = Tile(true);
+					Tile tile1 = new Tile(true, i, j);
+					tiles_level_1[i][j]= tile1;
+					g2.fillRect(j*90, i*90, 90, 90);
+					troll.flip();
+				}
+				Tile tile1 = new Tile(true, i, j);
+				tiles_level_1[i][j]= tile1;
+			}
+		}
 	}
+
+	public int[][] getMaze_level_1() {
+		return maze_level_1;
+	}
+
+	public void setMaze_level_1(int[][] maze_level_1) {
+		this.maze_level_1 = maze_level_1;
+	}
+	
+	public boolean wall(int i) {
+			for (int j=0; j<10; j++) {
+				if (maze_level_1[i][j]==1) return true;
+				else return false;
+			}
+		return false;
+
+	}
+
+	public Tile[][] getTiles_level_1() {
+		return tiles_level_1;
+	}
+
+	public void setTiles_level_1(Tile[][] tiles_level_1) {
+		this.tiles_level_1 = tiles_level_1;
+	}
+	
 	
 }
