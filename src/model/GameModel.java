@@ -1,8 +1,19 @@
 package model;
 
+import ui.GameComponent;
+import other.Troll;
 import java.awt.Color;
+import java.awt.Graphics;
 
-public class GameModel {
+import java.awt.Graphics2D;
+
+import javax.swing.JComponent;
+
+import other.Tile;
+
+public class GameModel extends JComponent{
+	
+	private Tile[][] tiles_level_1 = new Tile[10][10];
 	private int[][] maze_level_1 = {
 			{1,1,1,1,1,1,1,1,1,1},
 			{1,0,0,0,0,0,0,0,0,1},
@@ -16,6 +27,22 @@ public class GameModel {
 			{1,0,1,1,1,1,1,1,1,1},
 			
 	};
+	
+	public void drawMap(Graphics2D g2, Troll troll) {
+		for (int i =0; i<10;i++) {
+			for (int j= 0; j<10; j++) {
+				if (maze_level_1[i][j]==1) {
+					// new Tile tile = Tile(true);
+					Tile tile1 = new Tile(true, i, j);
+					tiles_level_1[i][j]= tile1;
+					g2.fillRect(j*90, i*90, 90, 90);
+					troll.flip();
+				}
+				Tile tile1 = new Tile(true, i, j);
+				tiles_level_1[i][j]= tile1;
+			}
+		}
+	}
 
 	public int[][] getMaze_level_1() {
 		return maze_level_1;
@@ -33,5 +60,14 @@ public class GameModel {
 		return false;
 
 	}
+
+	public Tile[][] getTiles_level_1() {
+		return tiles_level_1;
+	}
+
+	public void setTiles_level_1(Tile[][] tiles_level_1) {
+		this.tiles_level_1 = tiles_level_1;
+	}
+	
 	
 }

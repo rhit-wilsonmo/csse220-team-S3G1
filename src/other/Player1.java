@@ -7,14 +7,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Class: Player
+ * @author Ayaka, Madison, Adeline
+ * Purpose: Player class
+ */
 public class Player1 implements Collidable{
 
 	private int start_y;
 	private int start_x;
 	private int x;
 	private int y;
-	private static final int PLAYER_WIDTH = 100;
-	private static final int PLAYER_HEIGHT=100;
+	private static final int PLAYER_WIDTH = 30;
+	private static final int PLAYER_HEIGHT=30;
 	private static final int DX = 20;
 	private static final int DY = 20;
 	private static BufferedImage sprite = null;
@@ -68,6 +73,27 @@ public class Player1 implements Collidable{
 	public void move_y_up() {
 		y -= DY;
 	}
+	
+	public void bounceBack(){
+		x=x-100;
+	}
+
+	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
 
 	@Override
 	public void update(int WorldWidth, int WorldHeight) {
@@ -92,4 +118,5 @@ public class Player1 implements Collidable{
 			y = WorldHeight- PLAYER_HEIGHT;
 		}
 	}
+	
 }

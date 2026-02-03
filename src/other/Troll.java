@@ -12,8 +12,8 @@ public class Troll implements Collidable{
 	private int start_x;
 	private int x;
 	private int y;
-	private static final int TROLL_WIDTH = 100;
-	private static final int TROLL_HEIGHT=100;
+	private static final int TROLL_WIDTH = 30;
+	private static final int TROLL_HEIGHT=30;
 	private int dx = 20;
 	private int dy = 20;
 	private static BufferedImage sprite = null;
@@ -57,6 +57,9 @@ public class Troll implements Collidable{
 	
 	public void move() {
 		x+=dx;
+	}
+	public void flip() {
+		dx=-dx;
 	}
 //	public void move_x_right() {
 //		x+= DX;
