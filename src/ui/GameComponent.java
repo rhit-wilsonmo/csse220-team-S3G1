@@ -86,7 +86,7 @@ public class GameComponent extends JComponent {
 		timer.start();
 		setFocusable(true);
 		
-		// changed
+		
 		addKeyListener(new KeyAdapter() {
 		    @Override
 		    public void keyPressed(KeyEvent e) {
