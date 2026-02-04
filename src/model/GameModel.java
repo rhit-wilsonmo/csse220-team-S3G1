@@ -28,7 +28,7 @@ public class GameModel extends JComponent{
 			
 	};
 	
-	public void drawMap(Graphics2D g2, Troll troll) {
+	public void drawMap(Graphics2D g2) {
 		for (int i =0; i<10;i++) {
 			for (int j= 0; j<10; j++) {
 				if (maze_level_1[i][j]==1) {
@@ -36,13 +36,20 @@ public class GameModel extends JComponent{
 					Tile tile1 = new Tile(true, i, j);
 					tiles_level_1[i][j]= tile1;
 					g2.fillRect(j*90, i*90, 90, 90);
-					troll.flip();
+//					troll.flip();
 				}
 				Tile tile1 = new Tile(true, i, j);
 				tiles_level_1[i][j]= tile1;
+				
 			}
 		}
-	}
+//		int col_troll = troll.getx()/90;
+//		int row_troll = troll.gety()/90;
+//		System.out.println(troll.getx());
+//		if(col_troll<10&&wall(maze_level_1[row_troll][col_troll])) {
+//			troll.flip();
+		} 
+	
 
 	public int[][] getMaze_level_1() {
 		return maze_level_1;
