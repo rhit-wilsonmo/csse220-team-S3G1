@@ -2,6 +2,7 @@ package other;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -122,7 +123,16 @@ public class Player1 implements Collidable{
 			y = WorldHeight- PLAYER_HEIGHT;
 		}
 	}
-	
+
+	public Rectangle getBounds() {
+	    Rectangle r = new Rectangle(
+				    x - PLAYER_WIDTH,
+				    y - PLAYER_HEIGHT,
+				    PLAYER_WIDTH * 2,
+				    PLAYER_HEIGHT * 2
+	    );
+	    return r;
+	}
 	
 	
 }
