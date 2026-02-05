@@ -12,10 +12,10 @@ public class Troll implements Collidable{
 	private int start_x;
 	private int x;
 	private int y;
-	private static final int TROLL_WIDTH = 30;
-	private static final int TROLL_HEIGHT=30;
-	private int dx = 20;
-	private int dy = 20;
+	private static final int TROLL_WIDTH =90;
+	private static final int TROLL_HEIGHT=90;
+	private int dx = 90;
+	private int dy = 90;
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
 	
@@ -78,27 +78,53 @@ public class Troll implements Collidable{
 	public void update(int WorldWidth, int WorldHeight) {
 		move();
 		// x
-		if (x < 0) {
-			x = 0;
-			dx=-dx;
-		}
-		
-		// y
-		if (y < 0) {
-			y=0;
-			dy=-dy;
-		}
-		
-		//xl
-		if (x + TROLL_WIDTH > WorldWidth) {
-			x = WorldWidth- TROLL_WIDTH;
-			x=-dx;
-		}
-		
-		//yl
-		if (y + TROLL_HEIGHT > WorldHeight) {
-			y = WorldHeight- TROLL_HEIGHT;
-			y=-dy;
-		}
+//		if (x < 0) {
+//			x = 0;
+//			dx=-dx;
+//		}
+//		
+//		// y
+//		if (y < 0) {
+//			y=0;
+//			dy=-dy;
+//		}
+//		
+//		//xl
+//		if (x + TROLL_WIDTH > WorldWidth) {
+//			x = WorldWidth- TROLL_WIDTH;
+//			x=-dx;
+//		}
+//		
+//		//yl
+//		if (y + TROLL_HEIGHT > WorldHeight) {
+//			y = WorldHeight- TROLL_HEIGHT;
+//			y=-dy;
+//		}
 	}
+
+	public int getx() {
+		return x;
+	}
+
+	public void setx(int x) {
+		this.x = x;
+	}
+
+	public int gety() {
+		return y;
+	}
+
+	public void sety(int y) {
+		this.y = y;
+	}
+
+	public int getdx() {
+		return dx;
+	}
+
+	public void setdx(int dx) {
+		this.dx = dx;
+	}
+	
+	
 }
