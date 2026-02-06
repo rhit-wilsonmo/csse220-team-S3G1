@@ -4,6 +4,7 @@ import java.awt.Color;
 
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import java.awt.Graphics2D;
@@ -17,6 +18,7 @@ import javax.swing.Timer;
 import model.GameModel;
 import other.Gem;
 import other.Player1;
+import other.Score;
 import other.Tile;
 import other.Troll;
 
@@ -28,11 +30,16 @@ public class GameComponent extends JComponent {
 	private ArrayList<Gem> gems = new ArrayList<>();
 	private GameModel model;
 	private Timer timer, timer1;
+	
 
 	// for checking whether wall is or not
 	private int nextX;
 	private int nextY;
 	private static final int SIZE = 90;
+	
+	//Madison: Score 
+	private int score = 0;
+	
 	
 	public GameComponent(GameModel model) {
 		this.model = model;
@@ -121,6 +128,8 @@ public class GameComponent extends JComponent {
 		        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 		        	if (gems.size() >0 && bubbles.getBounds().intersects(gems.get(0).getBounds())) {
 		            gems.removeFirst();
+		            //Madison: Score goes up by one every time bubbles picks up a gem
+		            score += 1;
 		        	}
 		        }
 		    }
@@ -145,6 +154,12 @@ public class GameComponent extends JComponent {
 		 for (Gem gem: gems) {
 			  gem.draw(g2);
 		  }
+		 //To display the score
+		 g.setColor(Color.WHITE);
+		 g.setFont(new Font("Arial", Font.BOLD, 50));
+		 g.drawString("Score: " + score, 10, 50);
+		 
+		 
 	}
 
 	public boolean isWall(int flag_value) {

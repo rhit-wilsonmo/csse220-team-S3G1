@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 
 import model.GameModel;
+import other.Score;
 
 public class GameWindow {
 
@@ -15,14 +16,18 @@ public class GameWindow {
 
 		JFrame frame = new JFrame("CSSE220 Final Project");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.add(new Score());
 
 
 		frame.add(new GameComponent(model));
+		
 
 
 		frame.setSize(900, 900);
 		frame.setLocationRelativeTo(null); // center on screen (nice UX, still minimal)
 		frame.setVisible(true);
+		
+//		frame.add(new Score());
 		
 		}
 
