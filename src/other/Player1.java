@@ -38,7 +38,6 @@ public class Player1 implements Collidable{
 		this.y = start_y;
 		
 		loadSpriteOnce();
-	
 	}
 	
 	// code from ball
@@ -52,17 +51,15 @@ public class Player1 implements Collidable{
 		catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
 		}
-
-		
 	}
 	
+	
 	public void draw(Graphics2D g2) {
-		
 		if (sprite != null) {
 			g2.drawImage(sprite, x, y, PLAYER_WIDTH , PLAYER_HEIGHT, null);
-		} else {
-		g2.setColor(Color.MAGENTA);
-		g2.fillRect(x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
+		}else {
+			g2.setColor(Color.MAGENTA);
+			g2.fillRect(x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
 		}
 	}
 	
@@ -78,6 +75,7 @@ public class Player1 implements Collidable{
 	public void move_y_up() {
 		y -= DY;
 	}
+	
 	
 	public void bounceBack(){
 		x=x-100;
@@ -124,6 +122,7 @@ public class Player1 implements Collidable{
 		}
 	}
 
+	
 	public Rectangle getBounds() {
 	    Rectangle r = new Rectangle(
 				    x - PLAYER_WIDTH,
@@ -132,7 +131,5 @@ public class Player1 implements Collidable{
 				    PLAYER_HEIGHT * 2
 	    );
 	    return r;
-	}
-	
-	
+	}	
 }

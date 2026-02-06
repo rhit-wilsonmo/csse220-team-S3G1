@@ -38,8 +38,8 @@ public class Gem {
 			if (sprite != null) {
 				g2.drawImage(sprite, x, y, GEM_WIDTH, GEM_HEIGHT , null);
 			} else {
-			g2.setColor(Color.MAGENTA);
-			g2.fillRect(x, y, GEM_WIDTH, GEM_HEIGHT);
+				g2.setColor(Color.MAGENTA);
+				g2.fillRect(x, y, GEM_WIDTH, GEM_HEIGHT);
 			}
 		}
 		

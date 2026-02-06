@@ -19,6 +19,7 @@ public class Troll implements Collidable{
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
 	
+	
 	public Troll(int start_y, int start_x) {
 		super();
 		this.start_y = start_y;
@@ -27,7 +28,6 @@ public class Troll implements Collidable{
 		this.y = start_y;
 		
 		loadSpriteOnce();
-	
 	}
 	
 	// code from ball
@@ -41,17 +41,16 @@ public class Troll implements Collidable{
 		catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
 		}
-
-		
 	}
+	
 	
 	public void draw(Graphics2D g2) {
 		
 		if (sprite != null) {
 			g2.drawImage(sprite, x, y, TROLL_WIDTH , TROLL_HEIGHT, null);
 		} else {
-		g2.setColor(Color.MAGENTA);
-		g2.fillRect(x, y, TROLL_WIDTH, TROLL_HEIGHT);
+			g2.setColor(Color.MAGENTA);
+			g2.fillRect(x, y, TROLL_WIDTH, TROLL_HEIGHT);
 		}
 	}
 	
@@ -125,6 +124,4 @@ public class Troll implements Collidable{
 	public void setdx(int dx) {
 		this.dx = dx;
 	}
-	
-	
 }
