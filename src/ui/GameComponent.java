@@ -213,7 +213,7 @@ public class GameComponent extends JComponent {
 		troll = new Troll(90,90);
 		gems = new ArrayList<>();
 		gems.add(new Gem(90,180));
-//		lives = new Lives();;
+//		lives = new Lives();;;
 		life_arr.add(lives);
 		life_arr.add(lives);
 		life_arr.add(lives);
