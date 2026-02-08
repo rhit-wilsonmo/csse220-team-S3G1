@@ -35,7 +35,7 @@ public class GameWindow {
 		frame.setLocationRelativeTo(null); // center on screen (nice UX, still minimal)
 		frame.setVisible(true);
 		
-//		frame.add(new Score());
+//Need something so i can commit with a new comment
 		
 		}
 
