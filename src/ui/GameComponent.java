@@ -31,6 +31,7 @@ public class GameComponent extends JComponent {
 	private Player1 bubbles = new Player1(90, 810);
 	private Troll troll = new Troll(90,90);
 	private ArrayList<Gem> gems = new ArrayList<>();
+	private ArrayList<Lives> life_arr = new ArrayList<>();
 	private GameModel model;
 	private Timer timer, timer1;
 	
@@ -56,6 +57,9 @@ public class GameComponent extends JComponent {
 	public GameComponent(GameModel model) {
 		this.model = model;
 		gems.add(new Gem(90,180));
+		life_arr.add(lives);
+		life_arr.add(lives);
+		life_arr.add(lives);
 		
 		// reset button to restart after life is 0
 	    resetButton = new JButton("RESTART");
@@ -69,7 +73,7 @@ public class GameComponent extends JComponent {
 			
 			//collision bw a bubble and a troll
 			if(bubbles.getX()==troll.getx() && bubbles.getY()==troll.gety()) {
-				lives.lostLife();
+				life_arr.remove(0);
 				troll.flip();
 				troll.update(WIDTH, HEIGHT);
 				// check the left lives
@@ -171,20 +175,28 @@ public class GameComponent extends JComponent {
 		troll.draw(g2);
 		for (Gem gem: gems) {
 			gem.draw(g2);
-		lives.draw(g2);
 		}
+		
+		if (life_arr.size()==0) {
+			lives.showGameOver(g);
+			timer.stop();
+			timer1.stop();
+	        resetButton.setVisible(true);
+		}
+		        
+			
+		for(int i = 0; i <life_arr.size();i++) {
+			life_arr.get(i).draw(g2, 600+i*50, 0);
+		}
+		
+		
 
 		// show score at the top of the left
 		score.showScore(g);
-		lives.showLives(g);
+		
 		
 		// show game over after life is 0
-		if (lives.isZeroLife()) {
-	        lives.showGameOver(g);
-	        timer.stop();
-			timer1.stop();
-	        resetButton.setVisible(true); 
-	    }
+		
 	}
 
 	
@@ -201,7 +213,10 @@ public class GameComponent extends JComponent {
 		troll = new Troll(90,90);
 		gems = new ArrayList<>();
 		gems.add(new Gem(90,180));
-		lives = new Lives();
+//		lives = new Lives();
+		life_arr.add(lives);
+		life_arr.add(lives);
+		life_arr.add(lives);
 	    score = new Score();
 	    resetButton.setVisible(false);
 	    // restart

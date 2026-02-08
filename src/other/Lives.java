@@ -13,8 +13,8 @@ public class Lives {
 	private int lives;
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
-	private int x;
-	private int y;
+	
+	
 	private int start_y;
 	private int start_x;
 	private static final int HEART_WIDTH = 50;
@@ -23,16 +23,17 @@ public class Lives {
 	
 	public Lives() {
 		this.lives = 3;
-	}
-	
-	public void Hearts(int start_x, int start_y ) {
-		this.hearts = lives;
-		this.start_y = start_y;
-		this.start_x = start_x;
-		this.x = start_x;
-		this.y = start_y;
 		loadSpriteOnce();
 	}
+	
+//	public void Hearts(int start_x, int start_y ) {
+//		this.hearts = lives;
+//		this.start_y = start_y;
+//		this.start_x = start_x;
+//		this.x = start_x;
+//		this.y = start_y;
+//		loadSpriteOnce();
+//	}
 	
 	public void showLives(Graphics g) {
 		g.setColor(Color.WHITE);
@@ -70,12 +71,12 @@ public class Lives {
 		}
 	}
 	
-	public void draw(Graphics2D g2) {
+	public void draw(Graphics2D g2, int heart_x, int heart_y ) {
 		if (sprite != null) {
-			g2.drawImage(sprite, x, y, HEART_WIDTH , HEART_HEIGHT, null);
+			g2.drawImage(sprite, heart_x, heart_y, HEART_WIDTH , HEART_HEIGHT, null);
 		}else {
 			g2.setColor(Color.MAGENTA);
-			g2.fillRect(x, y, HEART_WIDTH , HEART_HEIGHT);
+			g2.fillRect(heart_x, heart_y, HEART_WIDTH , HEART_HEIGHT);
 		}
 	}
 		
