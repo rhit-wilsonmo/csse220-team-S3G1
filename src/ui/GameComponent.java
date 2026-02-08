@@ -46,6 +46,9 @@ public class GameComponent extends JComponent {
 	private Lives lives = new Lives();
 	private JButton resetButton;
 	
+	//Madison: Displays the hearts
+//	private Lives hearts = new Heart
+	
 	
 	
 	
@@ -168,10 +171,12 @@ public class GameComponent extends JComponent {
 		troll.draw(g2);
 		for (Gem gem: gems) {
 			gem.draw(g2);
+		lives.draw(g2);
 		}
 
 		// show score at the top of the left
 		score.showScore(g);
+		lives.showLives(g);
 		
 		// show game over after life is 0
 		if (lives.isZeroLife()) {
