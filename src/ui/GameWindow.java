@@ -6,9 +6,17 @@ import javax.swing.JFrame;
 
 import model.GameModel;
 import other.Score;
-
+/**
+ * Class: GameWindow
+ * @author Madison, Adeline,Ayaka
+ * <br>Purpose: Controls the frame
+ */
 public class GameWindow {
 
+	/** 
+	* Loads the frame and adds the gameComponent
+	* @return void
+	*/
 	public static void show() {
 		// Minimal model instance (empty for now, by design)
 		GameModel model = new GameModel();

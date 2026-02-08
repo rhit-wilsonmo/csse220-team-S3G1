@@ -24,6 +24,11 @@ import other.Score;
 import other.Tile;
 import other.Troll;
 
+/**
+ * Class: Game Component
+ * @author Ayaka, Adeline, Madison
+ * <br>Purpose: Runs the game; key listener, painting the screen, timers, resetting the game
+ */
 public class GameComponent extends JComponent {
 	
 	private static final int WIDTH = 900;
@@ -53,7 +58,10 @@ public class GameComponent extends JComponent {
 	
 	
 	
-	
+	/** 
+	* Constructor of Gamecomponent
+	* Handles everything
+	*/
 	public GameComponent(GameModel model) {
 		this.model = model;
 		gems.add(new Gem(90,180));
@@ -153,7 +161,7 @@ public class GameComponent extends JComponent {
 		            }
 		        }
 		        
-//		        Code that allows pickup of gems (keep the size>0 or exception/error)
+//		        Code that allows pickup of gems (keep the size>0 or exception/error); may need to rework into hashmap ****
 		        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 		        	if (gems.size() >0 && bubbles.getBounds().intersects(gems.get(0).getBounds())) {
 		        		gems.removeFirst();
@@ -165,7 +173,11 @@ public class GameComponent extends JComponent {
 		});
 	}
 
-
+	/** 
+	* Draws the game
+	* @param graphics g		java graphics
+	* @return void
+	*/
 	@Override
 	protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
@@ -199,14 +211,21 @@ public class GameComponent extends JComponent {
 		
 	}
 
-	
-	// true: movement / false: no movement
+	/** 
+	* Determines if an entity (player or troll) can move through the next block
+	* true: movement / false: no movement
+	* @param flag_value		a value gotten from gamemodel from the 2D array that gives the layout of the maze.
+	* @return boolean
+	*/
 	public boolean isWall(int flag_value) {
 		if(flag_value==0)return true;
 		return false;
 	}	
 	
-	// resetGame();
+	/** 
+	* Resets the game to the beginning
+	* @return void 
+	*/
 	private void resetGame() {
 
 		bubbles = new Player1(90, 810);

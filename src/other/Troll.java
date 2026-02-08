@@ -7,6 +7,11 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * Class: Troll
+ * @author Ayaka, Madison, Adeline
+ * <br>Purpose: The 'enemy' class of the game.
+ */
 public class Troll implements Collidable{
 	private int start_y;
 	private int start_x;
@@ -19,7 +24,9 @@ public class Troll implements Collidable{
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
 	
-	
+	/** 
+	* Class Constructor
+	*/
 	public Troll(int start_y, int start_x) {
 		super();
 		this.start_y = start_y;
@@ -30,7 +37,11 @@ public class Troll implements Collidable{
 		loadSpriteOnce();
 	}
 	
-	// code from ball
+	/** 
+	* Loads the image
+	* code from ball
+	* @return void
+	*/
 	private void loadSpriteOnce() {
 		// TODO Auto-generated method stub
 		if (triedLoad) return;
@@ -43,7 +54,11 @@ public class Troll implements Collidable{
 		}
 	}
 	
-	
+	/** 
+	* Draws the image
+	* code from ball
+	* @return void
+	*/
 	public void draw(Graphics2D g2) {
 		
 		if (sprite != null) {
@@ -54,9 +69,18 @@ public class Troll implements Collidable{
 		}
 	}
 	
+	/** 
+	* Moves troll	
+	* @return void
+	*/
 	public void move() {
 		x+=dx;
 	}
+	
+	/** 
+	* Flips troll
+	* @return void
+	*/
 	public void flip() {
 		dx=-dx;
 	}

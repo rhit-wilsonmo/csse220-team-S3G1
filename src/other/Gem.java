@@ -7,7 +7,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
+/**
+ * Class: Gem
+ * @author Adeline
+ * <br>Purpose: The collectible item class; Loads the image, draws on screen, and returns bounding box for collisions
+ */
 public class Gem {
 	private int x;
 	private int y;
@@ -16,6 +20,10 @@ public class Gem {
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
 	
+	
+	/** 
+	* Class Constructor
+	*/
 		public Gem(int x, int y) {
 			this.x = x;
 			this.y = y;
@@ -23,6 +31,11 @@ public class Gem {
 			loadSpriteOnce();
 		}
 		
+		/** 
+		* Loads the image
+		* code from ball
+		* @return void
+		*/
 		public void loadSpriteOnce() {
 			if (triedLoad) return;
 			triedLoad =true;
@@ -33,6 +46,13 @@ public class Gem {
 				sprite = null;
 			}
 		}
+		
+		/** 
+		* Draws the image
+		* code from ball
+		* @param java graphics
+		* @return void
+		*/
 		public void draw(Graphics2D g2) {
 			
 			if (sprite != null) {
@@ -43,6 +63,10 @@ public class Gem {
 			}
 		}
 		
+		/** 
+		* Gets the bounding box for the gems
+		* @return Rectangle
+		*/
 		public Rectangle getBounds() {
 		    Rectangle r = new Rectangle(
 					    x - GEM_WIDTH,

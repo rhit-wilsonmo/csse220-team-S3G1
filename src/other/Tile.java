@@ -2,7 +2,11 @@ package other;
 
 import java.awt.image.BufferedImage;
 import java.awt.*;
-
+/**
+ * Class: Tile
+ * @author Adeline, Madison, Ayaka
+ * <br>Purpose: Idea on how to display each tile; may need to be deleted
+ */
 public class Tile {
 
 	private boolean Collision = false;
@@ -11,7 +15,9 @@ public class Tile {
 	private int x;
 	private int y;
 	
-	
+	/** 
+	* Class constructor
+	*/
 	public Tile(boolean wall, int i, int j) {
 		if (wall == true) {
 			Rectangle rect = new Rectangle(j*90, i*90, 90,90);

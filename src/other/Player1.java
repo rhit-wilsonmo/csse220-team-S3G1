@@ -9,9 +9,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * Class: Player
+ * Class: Player1
  * @author Ayaka, Madison, Adeline
- * Purpose: Player class
+ * Purpose: Player class, loads image for player, sets how much the player moves per arrow press, bounds for collisions
  */
 public class Player1 implements Collidable{
 
@@ -40,7 +40,11 @@ public class Player1 implements Collidable{
 		loadSpriteOnce();
 	}
 	
-	// code from ball
+	/** 
+	* Loads the image
+	* code from ball
+	* @return void
+	*/
 	private void loadSpriteOnce() {
 		// TODO Auto-generated method stub
 		if (triedLoad) return;
@@ -53,7 +57,12 @@ public class Player1 implements Collidable{
 		}
 	}
 	
-	
+	/** 
+	* Draws the image
+	* code from ball
+	* @param java graphics
+	* @return void
+	*/
 	public void draw(Graphics2D g2) {
 		if (sprite != null) {
 			g2.drawImage(sprite, x, y, PLAYER_WIDTH , PLAYER_HEIGHT, null);
@@ -63,41 +72,53 @@ public class Player1 implements Collidable{
 		}
 	}
 	
+	/** 
+	* moves player right
+	* @return void
+	*/
 	public void move_x_right() {
 		x+= DX;
 	}
+	
+	/** 
+	* moves player left
+	* @return void
+	*/
 	public void move_x_left() {
 		x-= DX;
 	}
+	
+	/** 
+	* moves player down
+	* @return void
+	*/
 	public void move_y_down() {
 		y += DY;
 	}
+	
+	/** 
+	* moves player up
+	* @return void
+	*/
 	public void move_y_up() {
 		y -= DY;
 	}
 	
-	
+	/** 
+	* moves player back after bounce
+	* may delete
+	* @return void
+	*/
 	public void bounceBack(){
 		x=x-100;
 	}
 
-	
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
+	/** 
+	* Checks to see if player is in the bounds of the frame
+	* @param WorldWidth		value of the frame width
+	* @param WorldHeight	value of the frame height
+	* @return void
+	*/
 	@Override
 	public void update(int WorldWidth, int WorldHeight) {
 		
@@ -122,7 +143,10 @@ public class Player1 implements Collidable{
 		}
 	}
 
-	
+	/** 
+	* Gets bounding box
+	* @return Rectangle
+	*/
 	public Rectangle getBounds() {
 	    Rectangle r = new Rectangle(
 				    x - PLAYER_WIDTH,
@@ -132,4 +156,21 @@ public class Player1 implements Collidable{
 	    );
 	    return r;
 	}	
+	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 }
