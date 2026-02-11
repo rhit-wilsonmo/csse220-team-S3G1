@@ -16,7 +16,7 @@ public class MainApp {
 		SwingUtilities.invokeLater(() -> {
 		new MainApp().run();
 		});
-		}
+		}//main
 	
 	public void run() {
 		GameWindow.show();
@@ -24,5 +24,5 @@ public class MainApp {
 		//Hello World
 		// Hi
 		//Hellooo
-		}
+		}//run
 }

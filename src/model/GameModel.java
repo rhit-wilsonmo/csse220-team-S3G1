@@ -44,6 +44,19 @@ public class GameModel extends JComponent{
 	
 	private boolean drawnBubbles = false;
 	private boolean drawnGems = false;
+	private boolean drawnTrolls = false;
+	
+	private boolean level_1 = false;
+	private boolean level_2 = false;
+	private boolean level_3 = false;
+	public String fileName = "level1.txt";
+	
+	
+	private int exit_row;
+	private int exit_col;
+	
+//	private int currentLevel = 0;
+	private int maxLevel = 0;
 	/** 
 	* Draws the map
 	* @param java graphics
@@ -100,8 +113,8 @@ public class GameModel extends JComponent{
 		this.tiles_level_1 = tiles_level_1;
 	}//setTiles_level_1
 	
-	public int countGems() {
-		File file = new File("level1.txt");
+	public int countGems(String filename) {
+		File file = new File(filename);
 		int row =0;
 		int count =0;
 		
@@ -122,15 +135,44 @@ public class GameModel extends JComponent{
 			scanner.close();
 		}
 		catch(FileNotFoundException e) {
-			System.out.println("level1.txt not found");
+			System.out.println(filename + " not found");
 		}
 		return count;
 	}//countGems
 	
-	public void loadLevel(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem) {
-		File file = new File("level1.txt");
+	public int countTrolls(String filename) {
+		File file = new File(filename);
+		int row =0;
+		int count =0;
+		
+		try {
+			Scanner scanner = new Scanner(file);
+			
+			while(scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				
+		for(int col =0; col < line.length(); col++) {
+			char c = line.charAt(col);
+				if (c=='T') {
+					count +=1;
+				}
+				}
+				row++;
+			}
+			scanner.close();
+		}
+		catch(FileNotFoundException e) {
+			System.out.println(filename + " not found");
+		}
+		return count;
+	}//countTrolls
+	
+
+	public void loadLevel(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem, String filename ) {
+		File file = new File(filename);
 		int row = 0;
-		int count = countGems();
+		int countG = countGems(filename);
+		int countT = countTrolls(filename);
 		
 		try {
 			Scanner scanner = new Scanner(file);
@@ -149,28 +191,39 @@ public class GameModel extends JComponent{
 						 p.setY(row*90);
 						 drawnBubbles = true;
 						
-					} else if (c == 'T') {
+					} else if (c == 'T' && drawnTrolls == false) {
+						System.out.print("Troll");
 						troll.add(new Troll(col*90, row*90));
 						
+						drawnTrolls = true;
+						
 					} else if (c== 'G' && drawnGems ==false) {
-						System.out.println(col + " " + row);
+//						System.out.println(col + " " + row);
 						gem.add(new Gem(col*90, row*90));
 
 //						System.out.println(gem.size());
-						if (gem.size()==count) {
+						if (gem.size()==countG) {
 							drawnGems = true;
 						}
 					} 
-//					else if(c== ',') {
-//						continue;
-//					}
+					else if(c== ',' ) {
+						exit_row = row;
+						exit_col = col;
+//						Tile tile1 = new Tile(false, col, row);
+//						tiles_level_1[row][col] = tile1;
+						g2.setColor(Color.RED);
+						g2.fillRect(col*90, row*90, 90, 90);
+						continue;
+					}
 						else if(c== '1') {
 						Tile tile1 = new Tile(true, col, row);
 						tiles_level_1[row][col] = tile1;
+						g2.setColor(Color.BLACK);
 						g2.fillRect(col*90, row*90, 90, 90);
 						
 					}
 						else if(c== '0') {
+							
 							continue;
 							
 						}
@@ -180,10 +233,40 @@ public class GameModel extends JComponent{
 			}
 			scanner.close();
 		} catch(FileNotFoundException e) {
-			System.out.println("level1.txt not found");
+			System.out.println(filename +" not found");
 		}
 				
+	}//loadlevel
+	
+	public void reset() {
+		drawnBubbles = false;
+		drawnTrolls = false;
+		drawnGems= false;
+		level_1 = false;
+		level_2 = false;
+		level_3 = false;
 	}
 	
+	public int get_exitRow() {
+		return exit_row;
+	}
+	
+	public int get_exitCol() {
+		return exit_col;
+	}
+	
+	//Loading new levels
+	public void nextLevel(int currentLevel) {
+		while (currentLevel <= maxLevel) {
+			if (currentLevel == 1) {
+				fileName="level"+currentLevel+".txt";
+//				loadlevel(fileName);
+			} else if (currentLevel == 2);{
+				fileName = "level" + currentLevel + ".txt";
+			}
+			
+		
+		}
+	}
 	
 }

@@ -37,7 +37,7 @@ public class Player1 implements Collidable{
 		this.x = start_x;
 		this.y = start_y;
 		
-		loadSpriteOnce();
+//		loadSpriteOnce();
 	}
 	
 	/** 
@@ -45,7 +45,7 @@ public class Player1 implements Collidable{
 	* code from ball
 	* @return void
 	*/
-	private void loadSpriteOnce() {
+	public void loadSpriteOnce() {
 		// TODO Auto-generated method stub
 		if (triedLoad) return;
 		triedLoad =true;

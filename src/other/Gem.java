@@ -45,7 +45,7 @@ public class Gem {
 			catch (IOException | IllegalArgumentException ex) {
 				sprite = null;
 			}
-		}
+		}//loadSpriteOnce
 		
 		/** 
 		* Draws the image
@@ -61,7 +61,7 @@ public class Gem {
 				g2.setColor(Color.MAGENTA);
 				g2.fillRect(x, y, GEM_WIDTH, GEM_HEIGHT);
 			}
-		}
+		}//draw
 		
 		/** 
 		* Gets the bounding box for the gems
@@ -75,6 +75,6 @@ public class Gem {
 					    GEM_HEIGHT
 		    );
 		    return r;
-		}
+		}//getBounds
 		
 }

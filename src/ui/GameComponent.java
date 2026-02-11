@@ -34,7 +34,7 @@ public class GameComponent extends JComponent {
 	private static final int WIDTH = 900;
 	private static final int HEIGHT = 900;
 	private Player1 bubbles = new Player1(0,0);
-	private Troll troll = new Troll(90,90);
+//	private Troll troll = new Troll(90,90);
 	private ArrayList<Troll> trolls = new ArrayList<>();
 	private ArrayList<Gem> gems = new ArrayList<>();
 	private ArrayList<Lives> life_arr = new ArrayList<>();
@@ -52,6 +52,8 @@ public class GameComponent extends JComponent {
 	//Ayaka: Live and button for restart
 	private Lives lives = new Lives();
 	private JButton resetButton;
+	
+	private int currentLevel = 0;
 	
 	//Madison: Displays the hearts
 //	private Lives hearts = new Heart
@@ -81,6 +83,7 @@ public class GameComponent extends JComponent {
 			bubbles.update(WIDTH, HEIGHT);
 			
 			//collision bw a bubble and a troll
+			for (Troll troll: trolls) {
 			if(bubbles.getX()==troll.getx() && bubbles.getY()==troll.gety()) {
 				life_arr.remove(0);
 				troll.flip();
@@ -89,7 +92,16 @@ public class GameComponent extends JComponent {
 //				if(lives.isZeroLife()) {
 //					timer.stop();
 //					timer1.stop();
-//				}
+				}
+			}
+			
+			System.out.println(bubbles.getX()+ " "+ model.get_exitRow() +""+model.get_exitCol());
+			if((bubbles.getX()/SIZE)==model.get_exitCol() && (bubbles.getY()/SIZE)==model.get_exitRow()) {
+				System.out.println("Next Level!");
+				currentLevel+=1;
+				model.nextLevel(currentLevel);
+				model.loadLevel(getGraphics(), bubbles, trolls, gems, model.fileName);
+			
 			}
 			
 	//		for future reference maybe
@@ -108,7 +120,8 @@ public class GameComponent extends JComponent {
 		});
 		
 		
-		timer1 = new Timer(100,e -> {
+		timer1 = new Timer(250,e -> {
+			for (Troll troll : trolls) {
 			int col_troll = troll.getx()/SIZE;
 			int row_troll = troll.gety()/SIZE;
 
@@ -127,6 +140,7 @@ public class GameComponent extends JComponent {
 				}
 			} 
 			repaint();
+			}
 		});
 		
 		timer.start();
@@ -198,9 +212,12 @@ public class GameComponent extends JComponent {
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
 //		model.drawMap(g2);
-		model.loadLevel(g2, bubbles, trolls, gems);
+		model.loadLevel(g2, bubbles, trolls, gems, model.fileName);
+		bubbles.loadSpriteOnce();
 		bubbles.draw(g2);
-		troll.draw(g2);
+		for (Troll troll : trolls) {
+			troll.draw(g2);
+		}
 		for (Gem gem: gems) {
 			gem.draw(g2);
 		}
@@ -244,10 +261,15 @@ public class GameComponent extends JComponent {
 	*/
 	private void resetGame() {
 
-		bubbles = new Player1(90, 810);
-		troll = new Troll(90,90);
-		gems = new ArrayList<>();
-		gems.add(new Gem(90,180));
+		model.reset();
+		ArrayList<Troll> trolls = new ArrayList<>();
+		ArrayList<Gem> gems = new ArrayList<>();
+		model.loadLevel(getGraphics(), bubbles, trolls, gems, model.fileName);
+		
+		
+//		troll = new Troll(90,90);
+//		gems = new ArrayList<>();
+//		gems.add(new Gem(90,180));
 //		lives = new Lives();;;
 		life_arr.add(lives);
 		life_arr.add(lives);
@@ -259,6 +281,7 @@ public class GameComponent extends JComponent {
 	    timer1.start();
 	    repaint();
 	}
+	
 }
 
 
