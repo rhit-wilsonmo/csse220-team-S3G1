@@ -6,9 +6,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import java.awt.Graphics2D;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.FileNotFoundException;
 
 import javax.swing.JComponent;
 
+import other.Gem;
+import other.Player1;
 import other.Tile;
 /**
  * Class: GameModel
@@ -35,6 +41,9 @@ public class GameModel extends JComponent{
 			{1,0,1,1,1,1,1,1,1,1},
 			
 	};
+	
+	private boolean drawnBubbles = false;
+	private boolean drawnGems = false;
 	/** 
 	* Draws the map
 	* @param java graphics
@@ -73,22 +82,107 @@ public class GameModel extends JComponent{
 			else return false;
 		}
 	return false;
-	}
+	} //wall
 	
 	public int[][] getMaze_level_1() {
 		return maze_level_1;
-	}
+	}//getMaze_level_1
 
 	public void setMaze_level_1(int[][] maze_level_1) {
 		this.maze_level_1 = maze_level_1;
-	}
+	}// setMaze_level_1
 
 	public Tile[][] getTiles_level_1() {
 		return tiles_level_1;
-	}
+	}//getTiles_level_1
 
 	public void setTiles_level_1(Tile[][] tiles_level_1) {
 		this.tiles_level_1 = tiles_level_1;
+	}//setTiles_level_1
+	
+	public int countGems() {
+		File file = new File("level1.txt");
+		int row =0;
+		int count =0;
+		
+		try {
+			Scanner scanner = new Scanner(file);
+			
+			while(scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				
+		for(int col =0; col < line.length(); col++) {
+			char c = line.charAt(col);
+				if (c=='G') {
+					count +=1;
+				}
+				}
+				row++;
+			}
+			scanner.close();
+		}
+		catch(FileNotFoundException e) {
+			System.out.println("level1.txt not found");
+		}
+		return count;
+	}//countGems
+	
+	public void loadLevel(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem) {
+		File file = new File("level1.txt");
+		int row = 0;
+		int count = countGems();
+		
+		try {
+			Scanner scanner = new Scanner(file);
+			
+			while(scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				
+				for(int col =0; col < line.length(); col++) {
+					char c = line.charAt(col);
+					
+//					System.out.println("Yippee!");
+					if(c == 'P' && drawnBubbles == false) {
+//						 p.setStart_x();
+//						 p.setStart_y(row*90);
+						 p.setX(col*90);
+						 p.setY(row*90);
+						 drawnBubbles = true;
+						
+					} else if (c == 'T') {
+						troll.add(new Troll(col*90, row*90));
+						
+					} else if (c== 'G' && drawnGems ==false) {
+						System.out.println(col + " " + row);
+						gem.add(new Gem(col*90, row*90));
+
+//						System.out.println(gem.size());
+						if (gem.size()==count) {
+							drawnGems = true;
+						}
+					} 
+//					else if(c== ',') {
+//						continue;
+//					}
+						else if(c== '1') {
+						Tile tile1 = new Tile(true, col, row);
+						tiles_level_1[row][col] = tile1;
+						g2.fillRect(col*90, row*90, 90, 90);
+						
+					}
+						else if(c== '0') {
+							continue;
+							
+						}
+				}
+				
+				row++;
+			}
+			scanner.close();
+		} catch(FileNotFoundException e) {
+			System.out.println("level1.txt not found");
+		}
+				
 	}
 	
 	

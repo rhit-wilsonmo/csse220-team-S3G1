@@ -27,7 +27,7 @@ public class Troll implements Collidable{
 	/** 
 	* Class Constructor
 	*/
-	public Troll(int start_y, int start_x) {
+	public Troll(int start_x, int start_y) {
 		super();
 		this.start_y = start_y;
 		this.start_x = start_x;

@@ -33,8 +33,9 @@ public class GameComponent extends JComponent {
 	
 	private static final int WIDTH = 900;
 	private static final int HEIGHT = 900;
-	private Player1 bubbles = new Player1(90, 810);
+	private Player1 bubbles = new Player1(0,0);
 	private Troll troll = new Troll(90,90);
+	private ArrayList<Troll> trolls = new ArrayList<>();
 	private ArrayList<Gem> gems = new ArrayList<>();
 	private ArrayList<Lives> life_arr = new ArrayList<>();
 	private GameModel model;
@@ -64,7 +65,7 @@ public class GameComponent extends JComponent {
 	*/
 	public GameComponent(GameModel model) {
 		this.model = model;
-		gems.add(new Gem(90,180));
+
 		life_arr.add(lives);
 		life_arr.add(lives);
 		life_arr.add(lives);
@@ -112,11 +113,13 @@ public class GameComponent extends JComponent {
 			int row_troll = troll.gety()/SIZE;
 
 			// for troll's flip
-			if(col_troll>=0 && col_troll<10) {
-				if(col_troll>=0 && troll.getdx() <0 && isWall(model.getMaze_level_1()[row_troll][col_troll-1])==false) {
+			if(col_troll>=0 && col_troll<=9) {
+//		
+				if(col_troll>=0 && troll.getdx() <0 && isWall(model.getTiles_level_1()[row_troll][col_troll-1])) {
 					troll.flip();
 					troll.update(WIDTH, HEIGHT);
-				}else if(col_troll>=0 && troll.getdx() >0 && isWall(model.getMaze_level_1()[row_troll][col_troll+1])==false) {
+				}else if(col_troll<=8 && troll.getdx() >0 && isWall(model.getTiles_level_1()[row_troll][col_troll+1])) {
+//					System.out.println("This is else if!");
 					troll.flip();
 					troll.update(WIDTH, HEIGHT);
 				}else {
@@ -138,37 +141,49 @@ public class GameComponent extends JComponent {
 	
 		        if (e.getKeyCode() == KeyEvent.VK_D) {
 		            int nextCol = col + 1;
-		            if (nextCol < 10 && isWall(model.getMaze_level_1()[row][nextCol])) {
-		                bubbles.move_x_right();
-		            }
+//		            if (nextCol < 10 && isWall(model.getMaze_level_1()[row][nextCol])) {
+//		        	bubbles.move_x_right();
+//		            }
+		            if (nextCol < 10 && isWall(model.getTiles_level_1()[row][nextCol])==false) {
+			        	bubbles.move_x_right();
+			            }
 		        }
 		        if (e.getKeyCode() == KeyEvent.VK_A) {
 		            int nextCol = col - 1;
-		            if (nextCol >= 0 && isWall(model.getMaze_level_1()[row][nextCol])) {
-		                bubbles.move_x_left();
+//		            if (nextCol >= 0 && isWall(model.getMaze_level_1()[row][nextCol])) {
+		            if (nextCol < 10 && isWall(model.getTiles_level_1()[row][nextCol])==false) {
+		            bubbles.move_x_left();
 		            }
 		        }
 		        if (e.getKeyCode() == KeyEvent.VK_W) {
 		            int nextRow = row - 1;
-		            if (nextRow >= 0 && isWall(model.getMaze_level_1()[nextRow][col])) {
-		                bubbles.move_y_up();
+//		            if (nextRow >= 0 && isWall(model.getMaze_level_1()[nextRow][col])) 
+		            if (nextRow < 10 && isWall(model.getTiles_level_1()[nextRow][col])==false) {
+		            bubbles.move_y_up();
 		            }
 		        }
 		        if (e.getKeyCode() == KeyEvent.VK_S) {
 		            int nextRow = row + 1;
-		            if (nextRow < 10 && isWall(model.getMaze_level_1()[nextRow][col])) {
-		                bubbles.move_y_down();
+//		            if (nextRow < 10 && isWall(model.getMaze_level_1()[nextRow][col])) 
+		            	 if (nextRow < 10 && isWall(model.getTiles_level_1()[nextRow][col])==false){
+		            bubbles.move_y_down();
 		            }
 		        }
 		        
 //		        Code that allows pickup of gems (keep the size>0 or exception/error); may need to rework into hashmap ****
 		        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-		        	if (gems.size() >0 && bubbles.getBounds().intersects(gems.get(0).getBounds())) {
-		        		gems.removeFirst();
+		
+//		        		System.out.println("MY PRECIOUS");
+		        	for (Gem gem : gems) {
+		        		if (gems.size() >0 && bubbles.getBounds().intersects(gem.getBounds())) {
+		        			System.out.println("MY PRECIOUS");
+		        			gems.remove(gem);
 		        		//Madison: Score goes up by one every time bubbles picks up a gem
-		        		score.addScore();
+		        			score.addScore();
+		        	}
 		        	}
 		        }
+		    
 		    }
 		});
 	}
@@ -182,7 +197,8 @@ public class GameComponent extends JComponent {
 	protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
-		model.drawMap(g2);
+//		model.drawMap(g2);
+		model.loadLevel(g2, bubbles, trolls, gems);
 		bubbles.draw(g2);
 		troll.draw(g2);
 		for (Gem gem: gems) {
@@ -214,12 +230,12 @@ public class GameComponent extends JComponent {
 	/** 
 	* Determines if an entity (player or troll) can move through the next block
 	* true: movement / false: no movement
-	* @param flag_value		a value gotten from gamemodel from the 2D array that gives the layout of the maze.
+	* @param tile		a value gotten from gamemodel from the 2D array that gives the layout of the maze.
 	* @return boolean
 	*/
-	public boolean isWall(int flag_value) {
-		if(flag_value==0)return true;
-		return false;
+	public boolean isWall(Tile tile) {
+		if(tile == null)return false;
+		return true;
 	}	
 	
 	/** 

@@ -173,4 +173,22 @@ public class Player1 implements Collidable{
 		this.y = y;
 	}
 
+	public int getStart_y() {
+		return start_y;
+	}
+
+	public void setStart_y(int start_y) {
+		this.start_y = start_y;
+	}
+
+	public int getStart_x() {
+		return start_x;
+	}
+
+	public void setStart_x(int start_x) {
+		this.start_x = start_x;
+	}
+	
+	
+
 }

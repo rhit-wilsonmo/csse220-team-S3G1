@@ -69,8 +69,8 @@ public class Gem {
 		*/
 		public Rectangle getBounds() {
 		    Rectangle r = new Rectangle(
-					    x - GEM_WIDTH,
-					    y - GEM_HEIGHT,
+					    x ,
+					    y ,
 					    GEM_WIDTH,
 					    GEM_HEIGHT
 		    );
