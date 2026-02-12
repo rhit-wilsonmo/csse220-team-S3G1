@@ -100,7 +100,7 @@ public class GameComponent extends JComponent {
 				System.out.println("Next Level!");
 				currentLevel+=1;
 				model.nextLevel(currentLevel);
-				model.loadLevel(getGraphics(), bubbles, trolls, gems, model.fileName);
+				model.loadLevel(getGraphics(), bubbles, trolls, gems, model.file);
 			
 			}
 			
@@ -212,7 +212,7 @@ public class GameComponent extends JComponent {
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
 //		model.drawMap(g2);
-		model.loadLevel(g2, bubbles, trolls, gems, model.fileName);
+		model.loadLevel(g2, bubbles, trolls, gems, model.file);
 		bubbles.loadSpriteOnce();
 		bubbles.draw(g2);
 		for (Troll troll : trolls) {
@@ -262,9 +262,9 @@ public class GameComponent extends JComponent {
 	private void resetGame() {
 
 		model.reset();
-		ArrayList<Troll> trolls = new ArrayList<>();
-		ArrayList<Gem> gems = new ArrayList<>();
-		model.loadLevel(getGraphics(), bubbles, trolls, gems, model.fileName);
+		trolls.removeAll(trolls);
+		gems.removeAll(gems);
+		model.loadLevel(getGraphics(), bubbles, trolls, gems, model.file);
 		
 		
 //		troll = new Troll(90,90);

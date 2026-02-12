@@ -49,7 +49,7 @@ public class GameModel extends JComponent{
 	private boolean level_1 = false;
 	private boolean level_2 = false;
 	private boolean level_3 = false;
-	public String fileName = "level1.txt";
+	public String file = "level1.txt";
 	
 	
 	private int exit_row;
@@ -70,18 +70,12 @@ public class GameModel extends JComponent{
 					Tile tile1 = new Tile(true, i, j);
 					tiles_level_1[i][j]= tile1;
 					g2.fillRect(j*90, i*90, 90, 90);
-//					troll.flip();
 				}
 				Tile tile1 = new Tile(true, i, j);
 				tiles_level_1[i][j]= tile1;
 				
 			}
 		}
-//		int col_troll = troll.getx()/90;
-//		int row_troll = troll.gety()/90;
-//		System.out.println(troll.getx());
-//		if(col_troll<10&&wall(maze_level_1[row_troll][col_troll])) {
-//			troll.flip();
 		} 
 	
 	/** 
@@ -97,14 +91,6 @@ public class GameModel extends JComponent{
 	return false;
 	} //wall
 	
-	public int[][] getMaze_level_1() {
-		return maze_level_1;
-	}//getMaze_level_1
-
-	public void setMaze_level_1(int[][] maze_level_1) {
-		this.maze_level_1 = maze_level_1;
-	}// setMaze_level_1
-
 	public Tile[][] getTiles_level_1() {
 		return tiles_level_1;
 	}//getTiles_level_1
@@ -242,9 +228,6 @@ public class GameModel extends JComponent{
 		drawnBubbles = false;
 		drawnTrolls = false;
 		drawnGems= false;
-		level_1 = false;
-		level_2 = false;
-		level_3 = false;
 	}
 	
 	public int get_exitRow() {
@@ -259,10 +242,10 @@ public class GameModel extends JComponent{
 	public void nextLevel(int currentLevel) {
 		while (currentLevel <= maxLevel) {
 			if (currentLevel == 1) {
-				fileName="level"+currentLevel+".txt";
+				file="level"+currentLevel+".txt";
 //				loadlevel(fileName);
 			} else if (currentLevel == 2);{
-				fileName = "level" + currentLevel + ".txt";
+				file= "level" + currentLevel + ".txt";
 			}
 			
 		
