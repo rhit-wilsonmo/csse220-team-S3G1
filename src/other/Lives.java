@@ -95,7 +95,7 @@ public class Lives {
 		if (triedLoad) return;
 		triedLoad =true;
 		try {
-			sprite = ImageIO.read(Player1.class.getResource("game heart.png"));
+			sprite = ImageIO.read(Player1.class.getResource("game_heart.png"));
 		}
 		catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
