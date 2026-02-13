@@ -47,7 +47,7 @@ public class Troll implements Collidable{
 		if (triedLoad) return;
 		triedLoad =true;
 		try {
-			sprite = ImageIO.read(Player1.class.getResource("troll2.png"));
+			sprite = ImageIO.read(Player1.class.getResource("troll_2.png"));
 		}
 		catch (IOException | IllegalArgumentException ex) {
 			sprite = null;

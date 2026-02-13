@@ -50,7 +50,7 @@ public class Player1 implements Collidable{
 		if (triedLoad) return;
 		triedLoad =true;
 		try {
-			sprite = ImageIO.read(Player1.class.getResource("unicorn image.png"));
+			sprite = ImageIO.read(Player1.class.getResource("unicorn_image.png"));
 		}
 		catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
