@@ -100,7 +100,7 @@ public class GameComponent extends JComponent {
 				System.out.println("Next Level!");
 				currentLevel+=1;
 				model.nextLevel(currentLevel);
-				model.loadLevel(getGraphics(), bubbles, trolls, gems, model.file);
+//				model.loadlevel(getGraphics(), bubbles, trolls, gems, model.file);
 			
 			}
 			
@@ -128,10 +128,10 @@ public class GameComponent extends JComponent {
 			// for troll's flip
 			if(col_troll>=0 && col_troll<=9) {
 //		
-				if(col_troll>=0 && troll.getdx() <0 && isWall(model.getTiles_level_1()[row_troll][col_troll-1])) {
+				if(col_troll>=0 && troll.getdx() <0 && isWall(model.getMaze_level_1()[row_troll][col_troll-1])) {
 					troll.flip();
 					troll.update(WIDTH, HEIGHT);
-				}else if(col_troll<=8 && troll.getdx() >0 && isWall(model.getTiles_level_1()[row_troll][col_troll+1])) {
+				}else if(col_troll<=8 && troll.getdx() >0 && isWall(model.getMaze_level_1()[row_troll][col_troll+1])) {
 //					System.out.println("This is else if!");
 					troll.flip();
 					troll.update(WIDTH, HEIGHT);
@@ -158,28 +158,28 @@ public class GameComponent extends JComponent {
 //		            if (nextCol < 10 && isWall(model.getMaze_level_1()[row][nextCol])) {
 //		        	bubbles.move_x_right();
 //		            }
-		            if (nextCol < 10 && isWall(model.getTiles_level_1()[row][nextCol])==false) {
+		            if (nextCol < 10 && isWall(model.getMaze_level_1()[row][nextCol])==false) {
 			        	bubbles.move_x_right();
 			            }
 		        }
 		        if (e.getKeyCode() == KeyEvent.VK_A) {
 		            int nextCol = col - 1;
 //		            if (nextCol >= 0 && isWall(model.getMaze_level_1()[row][nextCol])) {
-		            if (nextCol < 10 && isWall(model.getTiles_level_1()[row][nextCol])==false) {
+		            if (nextCol < 10 && isWall(model.getMaze_level_1()[row][nextCol])==false) {
 		            bubbles.move_x_left();
 		            }
 		        }
 		        if (e.getKeyCode() == KeyEvent.VK_W) {
 		            int nextRow = row - 1;
 //		            if (nextRow >= 0 && isWall(model.getMaze_level_1()[nextRow][col])) 
-		            if (nextRow < 10 && isWall(model.getTiles_level_1()[nextRow][col])==false) {
+		            if (nextRow < 10 && isWall(model.getMaze_level_1()[nextRow][col])==false) {
 		            bubbles.move_y_up();
 		            }
 		        }
 		        if (e.getKeyCode() == KeyEvent.VK_S) {
 		            int nextRow = row + 1;
 //		            if (nextRow < 10 && isWall(model.getMaze_level_1()[nextRow][col])) 
-		            	 if (nextRow < 10 && isWall(model.getTiles_level_1()[nextRow][col])==false){
+		            	 if (nextRow < 10 && isWall(model.getMaze_level_1()[nextRow][col])==false){
 		            bubbles.move_y_down();
 		            }
 		        }
@@ -212,7 +212,7 @@ public class GameComponent extends JComponent {
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
 //		model.drawMap(g2);
-		model.loadLevel(g2, bubbles, trolls, gems, model.file);
+		model.loadLevel_HardCode(g2, bubbles, trolls, gems);
 		bubbles.loadSpriteOnce();
 		bubbles.draw(g2);
 		for (Troll troll : trolls) {
@@ -247,12 +247,12 @@ public class GameComponent extends JComponent {
 	/** 
 	* Determines if an entity (player or troll) can move through the next block
 	* true: movement / false: no movement
-	* @param tile		a value gotten from gamemodel from the 2D array that gives the layout of the maze.
+	* @param c		a value gotten from gamemodel from the 2D array that gives the layout of the maze.
 	* @return boolean
 	*/
-	public boolean isWall(Tile tile) {
-		if(tile == null)return false;
-		return true;
+	public boolean isWall(char c) {
+		if(c == 1)return true;
+		return false;
 	}	
 	
 	/** 
@@ -264,7 +264,7 @@ public class GameComponent extends JComponent {
 		model.reset();
 		trolls.removeAll(trolls);
 		gems.removeAll(gems);
-		model.loadLevel(getGraphics(), bubbles, trolls, gems, model.file);
+		model.loadLevel_HardCode(getGraphics(), bubbles, trolls, gems);
 		
 		
 //		troll = new Troll(90,90);

@@ -28,20 +28,40 @@ import other.Tile;
 public class GameModel extends JComponent{
 	
 	private Tile[][] tiles_level_1 = new Tile[10][10];
-	private int[][] maze_level_1 = {
-			{1,1,1,1,1,1,1,1,1,1},
-			{1,0,0,0,0,0,0,0,0,1},
-			{1,0,1,1,1,1,1,1,0,1},
-			{1,0,1,0,0,0,0,1,0,1},
-			{1,0,1,0,1,1,0,1,0,1},
-			{1,0,1,0,1,0,0,1,0,1},
-			{1,0,1,0,1,0,0,1,0,1},
-			{1,0,1,0,1,1,1,1,0,1},
-			{1,0,1,0,0,0,0,0,0,1},
-			{1,0,1,1,1,1,1,1,1,1},
+	//0 represents a path
+	//1 represents a wall
+	//2 represents player
+	//3 represents gem
+	//4 represents troll
+	//5 represents exit
+	//6 represents trapdoor (maybeeee)
+	private char[][] maze_level_1 = {
+			{1,5,1,1,1,1,1,1,1,1},
+			{1,0,1,1,0,0,0,0,0,1},
+			{1,0,0,0,1,1,0,1,0,1},
+			{1,0,1,0,0,1,1,1,0,1},
+			{1,0,1,1,0,0,0,0,0,1},
+			{1,0,3,1,1,1,1,1,0,1},
+			{1,1,1,1,1,1,1,1,0,1},
+			{1,4,0,0,0,0,0,1,0,1},
+			{1,3,1,1,0,1,0,0,0,1},
+			{1,1,1,1,2,1,1,1,1,1},
 			
 	};
 	
+	private char[][] maze_level_2= {
+			{1,1,1,1,1,1,1,1,1,1},
+			{1,1,1,1,1,1,1,1,1,1},
+			{1,1,1,1,1,1,1,1,1,1},
+			{1,1,1,1,1,1,1,1,1,1},
+			{1,1,1,1,1,1,1,1,1,1},
+			{1,1,1,1,1,1,1,1,1,1},
+			{1,0,0,0,3,0,0,4,1,1},
+			{1,0,1,1,0,1,1,1,1,1},
+			{1,0,1,1,5,1,1,1,1,1},
+			{1,2,1,1,1,1,1,1,1,1},
+			
+	};
 	private boolean drawnBubbles = false;
 	private boolean drawnGems = false;
 	private boolean drawnTrolls = false;
@@ -99,130 +119,166 @@ public class GameModel extends JComponent{
 		this.tiles_level_1 = tiles_level_1;
 	}//setTiles_level_1
 	
-	public int countGems(String filename) {
-		File file = new File(filename);
-		int row =0;
-		int count =0;
-		
-		try {
-			Scanner scanner = new Scanner(file);
-			
-			while(scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				
-		for(int col =0; col < line.length(); col++) {
-			char c = line.charAt(col);
-				if (c=='G') {
-					count +=1;
-				}
-				}
-				row++;
-			}
-			scanner.close();
-		}
-		catch(FileNotFoundException e) {
-			System.out.println(filename + " not found");
-		}
-		return count;
-	}//countGems
-	
-	public int countTrolls(String filename) {
-		File file = new File(filename);
-		int row =0;
-		int count =0;
-		
-		try {
-			Scanner scanner = new Scanner(file);
-			
-			while(scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				
-		for(int col =0; col < line.length(); col++) {
-			char c = line.charAt(col);
-				if (c=='T') {
-					count +=1;
-				}
-				}
-				row++;
-			}
-			scanner.close();
-		}
-		catch(FileNotFoundException e) {
-			System.out.println(filename + " not found");
-		}
-		return count;
-	}//countTrolls
-	
+	public char[][] getMaze_level_1() {
+		return maze_level_1;
+	}
 
-	public void loadLevel(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem, String filename ) {
-		File file = new File(filename);
-		int row = 0;
-		int countG = countGems(filename);
-		int countT = countTrolls(filename);
-		
-		try {
-			Scanner scanner = new Scanner(file);
-			
-			while(scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				
-				for(int col =0; col < line.length(); col++) {
-					char c = line.charAt(col);
-					
-//					System.out.println("Yippee!");
-					if(c == 'P' && drawnBubbles == false) {
-//						 p.setStart_x();
-//						 p.setStart_y(row*90);
-						 p.setX(col*90);
-						 p.setY(row*90);
-						 drawnBubbles = true;
-						
-					} else if (c == 'T' && drawnTrolls == false) {
-						System.out.print("Troll");
-						troll.add(new Troll(col*90, row*90));
-						
-						drawnTrolls = true;
-						
-					} else if (c== 'G' && drawnGems ==false) {
-//						System.out.println(col + " " + row);
-						gem.add(new Gem(col*90, row*90));
+	public void setMaze_level_1(char[][] maze_level_1) {
+		this.maze_level_1 = maze_level_1;
+	}
 
-//						System.out.println(gem.size());
-						if (gem.size()==countG) {
-							drawnGems = true;
-						}
-					} 
-					else if(c== ',' ) {
-						exit_row = row;
-						exit_col = col;
-//						Tile tile1 = new Tile(false, col, row);
+	public void loadLevel_HardCode(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem) {
+		for(int row=0; row<maze_level_1.length;row++) {
+			for (int col=0; col<maze_level_1[row].length; col++) {
+				if (maze_level_1[row][col]==1) {
+					g2.setColor(Color.BLACK);
+					g2.fillRect(col*90, row*90, 90, 90);
+				}
+				if (maze_level_1[row][col]==0) {
+					continue;
+				}
+				if (maze_level_1[row][col]==2 && drawnBubbles==false) {
+					 p.setX(col*90);
+					 p.setY(row*90);
+					 drawnBubbles = true;
+				}
+				if (maze_level_1[row][col]==3 && drawnGems==false) {
+					System.out.println(col + " " + row);
+					gem.add(new Gem(col*90, row*90));
+				}
+				if (maze_level_1[row][col]==4&& drawnTrolls==false) {
+					troll.add(new Troll(col*90, row*90));
+					drawnTrolls=true;
+				}
+				
+			}
+		}
+	}//LoadLevel_HardCode
+	
+//	public int countGems(String filename) {
+//		File file = new File(filename);
+//		int row =0;
+//		int count =0;
+//		
+//		try {
+//			Scanner scanner = new Scanner(file);
+//			
+//			while(scanner.hasNextLine()) {
+//				String line = scanner.nextLine();
+//				
+//		for(int col =0; col < line.length(); col++) {
+//			char c = line.charAt(col);
+//				if (c=='G') {
+//					count +=1;
+//				}
+//				}
+//				row++;
+//			}
+//			scanner.close();
+//		}
+//		catch(FileNotFoundException e) {
+//			System.out.println(filename + " not found");
+//		}
+//		return count;
+//	}//countGems
+//	
+//	public int countTrolls(String filename) {
+//		File file = new File(filename);
+//		int row =0;
+//		int count =0;
+//		
+//		try {
+//			Scanner scanner = new Scanner(file);
+//			
+//			while(scanner.hasNextLine()) {
+//				String line = scanner.nextLine();
+//				
+//		for(int col =0; col < line.length(); col++) {
+//			char c = line.charAt(col);
+//				if (c=='T') {
+//					count +=1;
+//				}
+//				}
+//				row++;
+//			}
+//			scanner.close();
+//		}
+//		catch(FileNotFoundException e) {
+//			System.out.println(filename + " not found");
+//		}
+//		return count;
+//	}//countTrolls
+//	
+//
+//	public void loadLevel(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem, String filename ) {
+//		File file = new File(filename);
+//		int row = 0;
+//		int countG = countGems(filename);
+//		int countT = countTrolls(filename);
+//		
+//		try {
+//			Scanner scanner = new Scanner(file);
+//			
+//			while(scanner.hasNextLine()) {
+//				String line = scanner.nextLine();
+//				
+//				for(int col =0; col < line.length(); col++) {
+//					char c = line.charAt(col);
+//					
+////					System.out.println("Yippee!");
+//					if(c == 'P' && drawnBubbles == false) {
+////						 p.setStart_x();
+////						 p.setStart_y(row*90);
+//						 p.setX(col*90);
+//						 p.setY(row*90);
+//						 drawnBubbles = true;
+//						
+//					} else if (c == 'T' && drawnTrolls == false) {
+//						System.out.print("Troll");
+//						troll.add(new Troll(col*90, row*90));
+//						
+//						drawnTrolls = true;
+//						
+//					} else if (c== 'G' && drawnGems ==false) {
+////						System.out.println(col + " " + row);
+//						gem.add(new Gem(col*90, row*90));
+//
+////						System.out.println(gem.size());
+//						if (gem.size()==countG) {
+//							drawnGems = true;
+//						}
+//					} 
+//					else if(c== ',' ) {
+//						exit_row = row;
+//						exit_col = col;
+////						Tile tile1 = new Tile(false, col, row);
+////						tiles_level_1[row][col] = tile1;
+//						g2.setColor(Color.RED);
+//						g2.fillRect(col*90, row*90, 90, 90);
+//						continue;
+//					}
+//						else if(c== '1') {
+//						Tile tile1 = new Tile(true, col, row);
 //						tiles_level_1[row][col] = tile1;
-						g2.setColor(Color.RED);
-						g2.fillRect(col*90, row*90, 90, 90);
-						continue;
-					}
-						else if(c== '1') {
-						Tile tile1 = new Tile(true, col, row);
-						tiles_level_1[row][col] = tile1;
-						g2.setColor(Color.BLACK);
-						g2.fillRect(col*90, row*90, 90, 90);
-						
-					}
-						else if(c== '0') {
-							
-							continue;
-							
-						}
-				}
-				
-				row++;
-			}
-			scanner.close();
-		} catch(FileNotFoundException e) {
-			System.out.println(filename +" not found");
-		}
-				
-	}//loadlevel
+//						g2.setColor(Color.BLACK);
+//						g2.fillRect(col*90, row*90, 90, 90);
+//						
+//					}
+//						else if(c== '0') {
+//							
+//							continue;
+//							
+//						}
+//				}
+//				
+//				row++;
+//			}
+//			scanner.close();
+//		} catch(FileNotFoundException e) {
+//			System.out.println(filename +" not found");
+//		}
+//				
+//	}//loadlevel
 	
 	public void reset() {
 		drawnBubbles = false;
