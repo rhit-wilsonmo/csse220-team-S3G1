@@ -39,7 +39,11 @@ public class Player1 implements Collidable{
 		
 //		loadSpriteOnce();
 	}
-	
+//	public void set_start(int x, int y) {
+//		this.start_x = x;
+//		this.start_y = y;
+//	}
+//	
 	/** 
 	* Loads the image
 	* code from ball

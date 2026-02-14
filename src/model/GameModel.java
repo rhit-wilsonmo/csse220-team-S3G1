@@ -35,21 +35,21 @@ public class GameModel extends JComponent{
 	//4 represents troll
 	//5 represents exit
 	//6 represents trapdoor (maybeeee)
-	private char[][] maze_level_1 = {
+	public char[][] maze_level_1 = {
 			{1,5,1,1,1,1,1,1,1,1},
 			{1,0,1,1,0,0,0,0,0,1},
 			{1,0,0,0,1,1,0,1,0,1},
-			{1,0,1,0,0,1,1,1,0,1},
+			{1,0,1,2,0,1,1,1,0,1},
 			{1,0,1,1,0,0,0,0,0,1},
 			{1,0,3,1,1,1,1,1,0,1},
 			{1,1,1,1,1,1,1,1,0,1},
 			{1,4,0,0,0,0,0,1,0,1},
 			{1,3,1,1,0,1,0,0,0,1},
-			{1,1,1,1,2,1,1,1,1,1},
+			{1,1,1,1,0,1,1,1,1,1},
 			
 	};
 	
-	private char[][] maze_level_2= {
+	public char[][] maze_level_2= {
 			{1,1,1,1,1,1,1,1,1,1},
 			{1,1,1,1,1,1,1,1,1,1},
 			{1,1,1,1,1,1,1,1,1,1},
@@ -65,11 +65,13 @@ public class GameModel extends JComponent{
 	private boolean drawnBubbles = false;
 	private boolean drawnGems = false;
 	private boolean drawnTrolls = false;
+	private boolean drawnExit = false;
 	
-	private boolean level_1 = false;
-	private boolean level_2 = false;
-	private boolean level_3 = false;
-	public String file = "level1.txt";
+	public boolean level_1 = false;
+	public boolean level_2 = false;
+	public boolean level_3 = false;
+	public String fileName = "level_1";
+//	public String file = "level1.txt";
 	
 	
 	private int exit_row;
@@ -127,28 +129,53 @@ public class GameModel extends JComponent{
 		this.maze_level_1 = maze_level_1;
 	}
 
-	public void loadLevel_HardCode(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem) {
-		for(int row=0; row<maze_level_1.length;row++) {
-			for (int col=0; col<maze_level_1[row].length; col++) {
-				if (maze_level_1[row][col]==1) {
+	//overwrite: the following method
+	public int countGems(char[][] maze_level) {
+		int count = 0;
+		for(int row=0; row<maze_level.length;row++) {
+			for (int col=0; col<maze_level[row].length; col++) {
+				if(maze_level[row][col]==3) count++;
+			}
+		}
+		return count;
+	}
+	public void loadLevel_HardCode(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem,char [][] maze_level) {
+		int countG = countGems(maze_level); //overwrite
+		for(int row=0; row<maze_level.length;row++) {
+			for (int col=0; col<maze_level[row].length; col++) {
+				if (maze_level[row][col]==1) {
 					g2.setColor(Color.BLACK);
 					g2.fillRect(col*90, row*90, 90, 90);
 				}
-				if (maze_level_1[row][col]==0) {
+				if (maze_level[row][col]==0) {
 					continue;
 				}
-				if (maze_level_1[row][col]==2 && drawnBubbles==false) {
+				if (maze_level[row][col]==2 && drawnBubbles==false) {
 					 p.setX(col*90);
 					 p.setY(row*90);
+//					 p.set_start(col*90, row*90);
 					 drawnBubbles = true;
 				}
-				if (maze_level_1[row][col]==3 && drawnGems==false) {
-					System.out.println(col + " " + row);
+				if (maze_level[row][col]==3 && drawnGems==false) {
+//					System.out.println(col + " " + row);
+//					System.out.println(drawnGems)
 					gem.add(new Gem(col*90, row*90));
+//					drawnGems=true;
+					if (gem.size()==countG) {
+						drawnGems = true;
+					}
+					
 				}
-				if (maze_level_1[row][col]==4&& drawnTrolls==false) {
+				if (maze_level[row][col]==4&& drawnTrolls==false) {
 					troll.add(new Troll(col*90, row*90));
 					drawnTrolls=true;
+				}
+				if (maze_level[row][col]==5&& drawnExit==false) {
+					exit_row = row;
+					exit_col = col;
+					g2.setColor(Color.YELLOW);
+					g2.fillRect(col*90, row*90, 90, 90);
+//					drawnExit = true;
 				}
 				
 			}
@@ -295,17 +322,18 @@ public class GameModel extends JComponent{
 	}
 	
 	//Loading new levels
-	public void nextLevel(int currentLevel) {
-		while (currentLevel <= maxLevel) {
-			if (currentLevel == 1) {
-				file="level"+currentLevel+".txt";
-//				loadlevel(fileName);
-			} else if (currentLevel == 2);{
-				file= "level" + currentLevel + ".txt";
-			}
+//	public void nextLevel(int currentLevel) {
+//		while (currentLevel <= maxLevel) {
+//			if (currentLevel == 1) {
+//				file="level"+currentLevel+".txt";
+////				loadlevel(fileName);
+//			} else if (currentLevel == 2);{
+//				file= "level" + currentLevel + ".txt";
+//			}
 			
 		
-		}
-	}
+//		}
+//	}
+	
 	
 }

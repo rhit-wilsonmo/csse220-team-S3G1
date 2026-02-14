@@ -3,6 +3,7 @@ package ui;
 import java.awt.Color;
 
 
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -11,6 +12,7 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -53,7 +55,12 @@ public class GameComponent extends JComponent {
 	private Lives lives = new Lives();
 	private JButton resetButton;
 	
-	private int currentLevel = 0;
+	private int currentLevel = 2;
+	private String levelName;
+	
+	public HashMap<Integer, char[][]> levels = new HashMap<>();
+	
+	private boolean reset = false;
 	
 	//Madison: Displays the hearts
 //	private Lives hearts = new Heart
@@ -67,7 +74,10 @@ public class GameComponent extends JComponent {
 	*/
 	public GameComponent(GameModel model) {
 		this.model = model;
-
+		
+//		levels.put(1, model.maze_level_1);
+		levels.put(3, model.maze_level_1);
+		levels.put(2, model.maze_level_2);
 		life_arr.add(lives);
 		life_arr.add(lives);
 		life_arr.add(lives);
@@ -79,7 +89,9 @@ public class GameComponent extends JComponent {
 	    resetButton.addActionListener(e -> resetGame());
 	    this.add(resetButton);
 	    
+	    // For bubbles
 		timer= new Timer(20,e -> {
+			System.out.println("Timer!!!!!");
 			bubbles.update(WIDTH, HEIGHT);
 			
 			//collision bw a bubble and a troll
@@ -94,12 +106,18 @@ public class GameComponent extends JComponent {
 //					timer1.stop();
 				}
 			}
-			
-			System.out.println(bubbles.getX()+ " "+ model.get_exitRow() +""+model.get_exitCol());
+			//overwrite(1): commentout
+//			System.out.println(bubbles.getX()+ " "+ model.get_exitRow() +""+model.get_exitCol());
 			if((bubbles.getX()/SIZE)==model.get_exitCol() && (bubbles.getY()/SIZE)==model.get_exitRow()) {
 				System.out.println("Next Level!");
+//				timer.stop();
+//				timer1.stop();
 				currentLevel+=1;
-				model.nextLevel(currentLevel);
+				reset = false;
+//				levelName = "level_" + currentLevel;
+				// model.filename = levelName;
+//				model.nextLevel(currentLevel);
+//				model.level_1 = true;
 //				model.loadlevel(getGraphics(), bubbles, trolls, gems, model.file);
 			
 			}
@@ -119,8 +137,9 @@ public class GameComponent extends JComponent {
 			repaint();
 		});
 		
-		
+		// for troll
 		timer1 = new Timer(250,e -> {
+			System.out.println("Timer1!!!!");
 			for (Troll troll : trolls) {
 			int col_troll = troll.getx()/SIZE;
 			int row_troll = troll.gety()/SIZE;
@@ -128,10 +147,10 @@ public class GameComponent extends JComponent {
 			// for troll's flip
 			if(col_troll>=0 && col_troll<=9) {
 //		
-				if(col_troll>=0 && troll.getdx() <0 && isWall(model.getMaze_level_1()[row_troll][col_troll-1])) {
+				if(col_troll>=0 && troll.getdx() <0 && isWall(levels.get(currentLevel)[row_troll][col_troll-1])) {
 					troll.flip();
 					troll.update(WIDTH, HEIGHT);
-				}else if(col_troll<=8 && troll.getdx() >0 && isWall(model.getMaze_level_1()[row_troll][col_troll+1])) {
+				}else if(col_troll<=8 && troll.getdx() >0 && isWall(levels.get(currentLevel)[row_troll][col_troll+1])) {
 //					System.out.println("This is else if!");
 					troll.flip();
 					troll.update(WIDTH, HEIGHT);
@@ -158,43 +177,52 @@ public class GameComponent extends JComponent {
 //		            if (nextCol < 10 && isWall(model.getMaze_level_1()[row][nextCol])) {
 //		        	bubbles.move_x_right();
 //		            }
-		            if (nextCol < 10 && isWall(model.getMaze_level_1()[row][nextCol])==false) {
+		            if (nextCol < 10 && isWall(levels.get(currentLevel)[row][nextCol])==false) {
 			        	bubbles.move_x_right();
 			            }
 		        }
 		        if (e.getKeyCode() == KeyEvent.VK_A) {
 		            int nextCol = col - 1;
 //		            if (nextCol >= 0 && isWall(model.getMaze_level_1()[row][nextCol])) {
-		            if (nextCol < 10 && isWall(model.getMaze_level_1()[row][nextCol])==false) {
+		            if (nextCol < 10 && isWall(levels.get(currentLevel)[row][nextCol])==false) {
 		            bubbles.move_x_left();
 		            }
 		        }
 		        if (e.getKeyCode() == KeyEvent.VK_W) {
 		            int nextRow = row - 1;
 //		            if (nextRow >= 0 && isWall(model.getMaze_level_1()[nextRow][col])) 
-		            if (nextRow < 10 && isWall(model.getMaze_level_1()[nextRow][col])==false) {
-		            bubbles.move_y_up();
+		            if (nextRow < 10 && isWall(levels.get(currentLevel)[nextRow][col])==false) {
+		            	System.out.print("can push a button");
+		            	bubbles.move_y_up();
 		            }
 		        }
 		        if (e.getKeyCode() == KeyEvent.VK_S) {
 		            int nextRow = row + 1;
 //		            if (nextRow < 10 && isWall(model.getMaze_level_1()[nextRow][col])) 
-		            	 if (nextRow < 10 && isWall(model.getMaze_level_1()[nextRow][col])==false){
+		            	 if (nextRow < 10 && isWall(levels.get(currentLevel)[nextRow][col])==false){
 		            bubbles.move_y_down();
 		            }
 		        }
 		        
 //		        Code that allows pickup of gems (keep the size>0 or exception/error); may need to rework into hashmap ****
 		        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
-		
+		        	System.out.println("Gems num: "+ gems.size());
 //		        		System.out.println("MY PRECIOUS");
-		        	for (Gem gem : gems) {
-		        		if (gems.size() >0 && bubbles.getBounds().intersects(gem.getBounds())) {
+//		        	for (Gem gem : gems) {
+//		        		if (gems.size()>0 && bubbles.getBounds().intersects(gem.getBounds())) {
+//		        			System.out.println("MY PRECIOUS");
+//		        			gems.remove(gem);
+//		        		//Madison: Score goes up by one every time bubbles picks up a gem
+//		        			score.addScore();
+//		        	}
+//		        	}
+		        	for(int i=0; i<gems.size(); i++) {
+		        		if (gems.size()>0 && bubbles.getBounds().intersects(gems.get(i).getBounds())) {
 		        			System.out.println("MY PRECIOUS");
-		        			gems.remove(gem);
+		        			gems.remove(gems.get(i));
 		        		//Madison: Score goes up by one every time bubbles picks up a gem
 		        			score.addScore();
-		        	}
+		        		}
 		        	}
 		        }
 		    
@@ -212,7 +240,21 @@ public class GameComponent extends JComponent {
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
 //		model.drawMap(g2);
-		model.loadLevel_HardCode(g2, bubbles, trolls, gems);
+		if(currentLevel == 2) {
+			model.loadLevel_HardCode(g2, bubbles, trolls, gems, model.maze_level_2);
+		} else if(currentLevel == 3) {
+//			System.out.print(bubbles.getX() + " " + bubbles.getY());
+			repaint();
+			if (reset==false) {
+				model.reset();
+				trolls.removeAll(trolls);
+				gems.removeAll(gems);
+			}
+			model.loadLevel_HardCode(g2, bubbles, trolls, gems, model.maze_level_1);
+//			timer.start();
+//			timer1.start();
+		}
+//		model.loadLevel_HardCode(g2, bubbles, trolls, gems);
 		bubbles.loadSpriteOnce();
 		bubbles.draw(g2);
 		for (Troll troll : trolls) {
@@ -264,7 +306,7 @@ public class GameComponent extends JComponent {
 		model.reset();
 		trolls.removeAll(trolls);
 		gems.removeAll(gems);
-		model.loadLevel_HardCode(getGraphics(), bubbles, trolls, gems);
+		model.loadLevel_HardCode(getGraphics(), bubbles, trolls, gems, model.maze_level_1);
 		
 		
 //		troll = new Troll(90,90);
