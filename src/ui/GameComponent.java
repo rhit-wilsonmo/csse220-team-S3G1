@@ -26,6 +26,7 @@ import other.Score;
 import other.Tile;
 import other.Troll;
 
+
 /**
  * Class: Game Component
  * @author Ayaka, Adeline, Madison
@@ -161,7 +162,7 @@ public class GameComponent extends JComponent {
 			repaint();
 			}
 		});
-		
+		//Madison: Comment out to do the start screen
 		timer.start();
 		timer1.start();
 		setFocusable(true);
@@ -229,6 +230,12 @@ public class GameComponent extends JComponent {
 		    }
 		});
 	}
+	
+//	public void startTimer() {
+//		timer.start();
+//		timer1.start();
+//		
+//	}
 
 	/** 
 	* Draws the game
@@ -296,6 +303,11 @@ public class GameComponent extends JComponent {
 		if(c == 1)return true;
 		return false;
 	}	
+	
+//	public void startGame() {
+//		startTimer();
+		
+//	}
 	
 	/** 
 	* Resets the game to the beginning

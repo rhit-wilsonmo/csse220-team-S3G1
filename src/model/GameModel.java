@@ -313,6 +313,8 @@ public class GameModel extends JComponent{
 		drawnGems= false;
 	}
 	
+	
+	
 	public int get_exitRow() {
 		return exit_row;
 	}
