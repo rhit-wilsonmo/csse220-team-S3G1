@@ -38,7 +38,8 @@ public class GameModel extends JComponent{
 	//3 represents gem
 	//4 represents troll
 	//5 represents exit
-	//6 represents trapdoor (maybeeee)
+	//6 represents key
+	//7 represents life
 	public int[][] maze_level_1 = {
 			{1,5,1,1,1,1,1,1,1,1},
 			{1,0,1,1,0,0,0,0,0,1},
@@ -48,7 +49,7 @@ public class GameModel extends JComponent{
 			{1,0,3,1,1,1,1,1,0,1},
 			{1,1,1,1,1,1,1,1,0,1},
 			{1,4,0,0,0,0,0,1,0,1},
-			{1,3,1,1,0,1,0,0,0,1},
+			{1,3,1,1,0,1,0,0,7,1},
 			{1,1,1,1,2,1,1,1,1,1},
 			
 	};
