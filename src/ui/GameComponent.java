@@ -20,6 +20,7 @@ import javax.swing.Timer;
 
 import model.GameModel;
 import other.Gem;
+import other.Key;
 import other.Lives;
 import other.Player1;
 import other.Score;
@@ -40,9 +41,14 @@ public class GameComponent extends JComponent {
 //	private Troll troll = new Troll(90,90);
 	private ArrayList<Troll> trolls = new ArrayList<>();
 	private ArrayList<Gem> gems = new ArrayList<>();
+	private Key key = new Key(0, 0);
 	private ArrayList<Lives> life_arr = new ArrayList<>();
 	private GameModel model;
 	private Timer timer, timer1;
+	
+	// corresponding the tile number
+	private static final char EXITNUM = 5;
+	private static final char KEYNUM = 6;
 	
 	// for checking whether wall is or not
 	private int nextX;
@@ -59,7 +65,7 @@ public class GameComponent extends JComponent {
 	private int currentLevel = 2;
 	private String levelName;
 	
-	public HashMap<Integer, char[][]> levels = new HashMap<>();
+	public HashMap<Integer, int[][]> levels = new HashMap<>();
 	
 	private boolean reset = false;
 	
@@ -83,6 +89,8 @@ public class GameComponent extends JComponent {
 		life_arr.add(lives);
 		life_arr.add(lives);
 		
+		System.out.println("component");
+		
 		// reset button to restart after life is 0
 	    resetButton = new JButton("RESTART");
 	    resetButton.setBounds(400, 400, 100, 50);
@@ -92,12 +100,14 @@ public class GameComponent extends JComponent {
 	    
 	    // For bubbles
 		timer= new Timer(20,e -> {
-			System.out.println("Timer!!!!!");
+//			System.out.println("Timer!!!!!");
 			bubbles.update(WIDTH, HEIGHT);
+			int bub_x = bubbles.getX();
+			int bub_y = bubbles.getY();
 			
 			//collision bw a bubble and a troll
 			for (Troll troll: trolls) {
-			if(bubbles.getX()==troll.getx() && bubbles.getY()==troll.gety()) {
+			if(bub_x==troll.getx() && bub_y==troll.gety()) {
 				life_arr.remove(0);
 				troll.flip();
 				troll.update(WIDTH, HEIGHT);
@@ -109,10 +119,15 @@ public class GameComponent extends JComponent {
 			}
 			//overwrite(1): commentout
 //			System.out.println(bubbles.getX()+ " "+ model.get_exitRow() +""+model.get_exitCol());
-			if((bubbles.getX()/SIZE)==model.get_exitCol() && (bubbles.getY()/SIZE)==model.get_exitRow()) {
+//			if((bubbles.getX()/SIZE)==model.get_exitCol() && (bubbles.getY()/SIZE)==model.get_exitRow()) {
+//			System.out.println(bub_x/SIZE);
+//			System.out.println(bub_y/SIZE);
+//			System.out.println(currentLevel);
+//			System.out.println(model.get_tile((bub_x/SIZE), (bub_y/SIZE), currentLevel));
+			if(levels.get(currentLevel)[bub_y/SIZE][bub_x/SIZE]==EXITNUM && key.isHaveKey()) {
 				System.out.println("Next Level!");
-//				timer.stop();
-//				timer1.stop();
+				timer.stop();
+				timer1.stop();
 				currentLevel+=1;
 				reset = false;
 //				levelName = "level_" + currentLevel;
@@ -122,6 +137,7 @@ public class GameComponent extends JComponent {
 //				model.loadlevel(getGraphics(), bubbles, trolls, gems, model.file);
 			
 			}
+			
 			
 	//		for future reference maybe
 	//		model.getMaze_level_1();
@@ -217,6 +233,11 @@ public class GameComponent extends JComponent {
 //		        			score.addScore();
 //		        	}
 //		        	}
+		        	System.out.println("key: " + levels.get(currentLevel)[row-1][col]);
+		        	if(levels.get(currentLevel)[row][col]==KEYNUM) {
+						key.setKey();
+					}
+		        	
 		        	for(int i=0; i<gems.size(); i++) {
 		        		if (gems.size()>0 && bubbles.getBounds().intersects(gems.get(i).getBounds())) {
 		        			System.out.println("MY PRECIOUS");
@@ -248,7 +269,7 @@ public class GameComponent extends JComponent {
 	Graphics2D g2 = (Graphics2D) g;
 //		model.drawMap(g2);
 		if(currentLevel == 2) {
-			model.loadLevel_HardCode(g2, bubbles, trolls, gems, model.maze_level_2);
+			model.loadLevel_HardCode(g2, bubbles, trolls, gems, key, model.maze_level_2);
 		} else if(currentLevel == 3) {
 //			System.out.print(bubbles.getX() + " " + bubbles.getY());
 			repaint();
@@ -256,8 +277,9 @@ public class GameComponent extends JComponent {
 				model.reset();
 				trolls.removeAll(trolls);
 				gems.removeAll(gems);
+				reset=true;
 			}
-			model.loadLevel_HardCode(g2, bubbles, trolls, gems, model.maze_level_1);
+			model.loadLevel_HardCode(g2, bubbles, trolls, gems, key, model.maze_level_1);
 //			timer.start();
 //			timer1.start();
 		}
@@ -270,7 +292,10 @@ public class GameComponent extends JComponent {
 		for (Gem gem: gems) {
 			gem.draw(g2);
 		}
-		
+		if(!key.isHaveKey()) {
+			key.draw(g2);
+		}
+//		key.draw(g2);
 		if (life_arr.size()==0) {
 			lives.showGameOver(g);
 			timer.stop();
@@ -299,7 +324,7 @@ public class GameComponent extends JComponent {
 	* @param c		a value gotten from gamemodel from the 2D array that gives the layout of the maze.
 	* @return boolean
 	*/
-	public boolean isWall(char c) {
+	public boolean isWall(int c) {
 		if(c == 1)return true;
 		return false;
 	}	
@@ -318,7 +343,7 @@ public class GameComponent extends JComponent {
 		model.reset();
 		trolls.removeAll(trolls);
 		gems.removeAll(gems);
-		model.loadLevel_HardCode(getGraphics(), bubbles, trolls, gems, model.maze_level_1);
+		model.loadLevel_HardCode(getGraphics(), bubbles, trolls, gems, key, model.maze_level_1);
 		
 		
 //		troll = new Troll(90,90);

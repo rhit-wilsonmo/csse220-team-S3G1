@@ -106,6 +106,7 @@ public class Player1 implements Collidable{
 	*/
 	public void move_y_up() {
 		y -= DY;
+		System.out.println("UP YYYY: " + this.y + y);
 	}
 	
 	/** 

@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import javax.swing.JComponent;
 
 import other.Gem;
+import other.Key;
 import other.Player1;
 import other.Tile;
 /**
@@ -35,7 +36,7 @@ public class GameModel extends JComponent{
 	//4 represents troll
 	//5 represents exit
 	//6 represents trapdoor (maybeeee)
-	public char[][] maze_level_1 = {
+	public int[][] maze_level_1 = {
 			{1,5,1,1,1,1,1,1,1,1},
 			{1,0,1,1,0,0,0,0,0,1},
 			{1,0,0,0,1,1,0,1,0,1},
@@ -49,7 +50,7 @@ public class GameModel extends JComponent{
 			
 	};
 	
-	public char[][] maze_level_2= {
+	public int[][] maze_level_2= {
 			{1,1,1,1,1,1,1,1,1,1},
 			{1,1,1,1,1,1,1,1,1,1},
 			{1,1,1,1,1,1,1,1,1,1},
@@ -58,14 +59,42 @@ public class GameModel extends JComponent{
 			{1,1,1,1,1,1,1,1,1,1},
 			{1,0,0,0,3,0,0,4,1,1},
 			{1,0,1,1,0,1,1,1,1,1},
-			{1,0,1,1,5,1,1,1,1,1},
+			{1,6,1,1,5,1,1,1,1,1},
 			{1,2,1,1,1,1,1,1,1,1},
 			
 	};
+//	
+//	public char[][] maze_level_1 = {
+//		    {'1','5','1','1','1','1','1','1','1','1'},
+//		    {'1','0','1','1','0','0','0','0','0','1'},
+//		    {'1','0','0','0','1','1','0','1','0','1'},
+//		    {'1','0','1','2','0','1','1','1','0','1'},
+//		    {'1','0','1','1','0','0','0','0','0','1'},
+//		    {'1','0','3','1','1','1','1','1','0','1'},
+//		    {'1','1','1','1','1','1','1','1','0','1'},
+//		    {'1','4','0','0','0','0','0','1','0','1'},
+//		    {'1','3','1','1','0','1','0','0','0','1'},
+//		    {'1','1','1','1','0','1','1','1','1','1'}
+//		};
+//
+//		public char[][] maze_level_2 = {
+//		    {'1','1','1','1','1','1','1','1','1','1'},
+//		    {'1','1','1','1','1','1','1','1','1','1'},
+//		    {'1','1','1','1','1','1','1','1','1','1'},
+//		    {'1','1','1','1','1','1','1','1','1','1'},
+//		    {'1','1','1','1','1','1','1','1','1','1'},
+//		    {'1','1','1','1','1','1','1','1','1','1'},
+//		    {'1','0','0','0','3','0','0','4','1','1'},
+//		    {'1','0','1','1','0','1','1','1','1','1'},
+//		    {'1','6','1','1','5','1','1','1','1','1'},
+//		    {'1','2','1','1','1','1','1','1','1','1'}
+//		};
+	
 	private boolean drawnBubbles = false;
 	private boolean drawnGems = false;
 	private boolean drawnTrolls = false;
 	private boolean drawnExit = false;
+	private boolean drawnKey = false;
 	
 	public boolean level_1 = false;
 	public boolean level_2 = false;
@@ -121,16 +150,16 @@ public class GameModel extends JComponent{
 		this.tiles_level_1 = tiles_level_1;
 	}//setTiles_level_1
 	
-	public char[][] getMaze_level_1() {
+	public int[][] getMaze_level_1() {
 		return maze_level_1;
 	}
 
-	public void setMaze_level_1(char[][] maze_level_1) {
+	public void setMaze_level_1(int[][] maze_level_1) {
 		this.maze_level_1 = maze_level_1;
 	}
 
 	//overwrite: the following method
-	public int countGems(char[][] maze_level) {
+	public int countGems(int[][] maze_level) {
 		int count = 0;
 		for(int row=0; row<maze_level.length;row++) {
 			for (int col=0; col<maze_level[row].length; col++) {
@@ -139,7 +168,7 @@ public class GameModel extends JComponent{
 		}
 		return count;
 	}
-	public void loadLevel_HardCode(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem,char [][] maze_level) {
+	public void loadLevel_HardCode(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem,Key key, int [][] maze_level) {
 		int countG = countGems(maze_level); //overwrite
 		for(int row=0; row<maze_level.length;row++) {
 			for (int col=0; col<maze_level[row].length; col++) {
@@ -176,6 +205,15 @@ public class GameModel extends JComponent{
 					g2.setColor(Color.YELLOW);
 					g2.fillRect(col*90, row*90, 90, 90);
 //					drawnExit = true;
+				}
+				if (maze_level[row][col]==6 && drawnKey==false) {
+//					System.out.println(col + " " + row);
+//					System.out.println(drawnGems)
+					System.out.println("this is a key area");
+					key.add(col*90, row*90);
+//					key.add(row, col);
+					drawnKey = true;
+					
 				}
 				
 			}
@@ -313,15 +351,17 @@ public class GameModel extends JComponent{
 		drawnGems= false;
 	}
 	
-	
-	
-	public int get_exitRow() {
-		return exit_row;
+	public int get_tile(int getRow, int getCol, int[][] maze) {
+		return maze[getCol][getRow];
 	}
 	
-	public int get_exitCol() {
-		return exit_col;
-	}
+//	public int get_exitRow() {
+//		return exit_row;
+//	}
+//	
+//	public int get_exitCol() {
+//		return exit_col;
+//	}
 	
 	//Loading new levels
 //	public void nextLevel(int currentLevel) {
