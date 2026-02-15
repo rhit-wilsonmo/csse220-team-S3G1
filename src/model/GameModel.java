@@ -417,7 +417,7 @@ public class GameModel extends JComponent{
 		if (triedLoad) return;
 		triedLoad =true;
 		try {
-			sprite = ImageIO.read(GameModel.class.getResource("illust.png"));
+			sprite = ImageIO.read(GameModel.class.getResource("THE_DOOR.png"));
 		}
 		catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
