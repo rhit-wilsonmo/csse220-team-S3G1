@@ -70,10 +70,14 @@ public class Player1 implements Collidable{
 	public void draw(Graphics2D g2) {
 		if (sprite != null) {
 			g2.drawImage(sprite, x, y, PLAYER_WIDTH , PLAYER_HEIGHT, null);
-		}else {
+		}
+		else {
 			g2.setColor(Color.MAGENTA);
 			g2.fillRect(x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
 		}
+	}
+	public void delete(Graphics2D g2) {
+		sprite =null;
 	}
 	
 	/** 

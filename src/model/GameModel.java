@@ -54,16 +54,16 @@ public class GameModel extends JComponent{
 	};
 	
 	public int[][] maze_level_2= {
-			{1,1,1,1,1,1,1,1,1,1},
-			{1,1,1,1,1,1,1,1,1,1},
-			{1,1,1,1,1,1,1,1,1,1},
-			{1,1,1,1,1,1,1,1,1,1},
-			{1,1,1,1,1,1,1,1,1,1},
-			{1,1,1,1,1,1,1,1,1,1},
-			{1,0,0,0,3,0,0,4,1,1},
+			{1,1,1,1,2,1,1,1,1,1},
+			{1,0,0,0,4,1,1,1,1,1},
+			{1,0,1,0,0,1,1,1,1,1},
+			{1,0,1,1,1,1,1,1,1,1},
+			{1,0,0,0,0,1,1,1,1,1},
 			{1,0,1,1,0,1,1,1,1,1},
-			{1,6,1,1,5,1,1,1,1,1},
-			{1,2,1,1,1,1,1,1,1,1},
+			{1,0,0,0,0,0,0,4,1,1},
+			{1,0,1,0,0,1,1,1,1,1},
+			{1,6,1,0,5,1,1,1,1,1},
+			{1,1,1,0,1,1,1,1,1,1},
 			
 	};
 //	
@@ -174,8 +174,21 @@ public class GameModel extends JComponent{
 		}
 		return count;
 	}
+	
+	public int countTroll(int[][] maze_level) {
+		int count = 0;
+		for(int row=0; row<maze_level.length;row++) {
+			for (int col=0; col<maze_level[row].length; col++) {
+				if(maze_level[row][col]==4) count++;
+			}
+		}
+		return count;
+	}
+	
 	public void initialize_HardCode(Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem,Key key, int [][] maze_level) {
 		int countG = countGems(maze_level); //overwrite
+		int countT = countTroll(maze_level);
+		System.out.println(countT);
 		for(int row=0; row<maze_level.length;row++) {
 			for (int col=0; col<maze_level[row].length; col++) {
 				if (maze_level[row][col]==2 && drawnBubbles==false) {
@@ -195,9 +208,13 @@ public class GameModel extends JComponent{
 				}
 				if (maze_level[row][col]==4&& drawnTrolls==false) {
 					troll.add(new Troll(col*90, row*90));
-					drawnTrolls=true;
+					if (troll.size()==countT) {
+						drawnTrolls = true;
+					}
+//					drawnTrolls=true;
 				}
 				if (maze_level[row][col]==6 && drawnKey==false) {
+//					System.out.println("Key");
 					key.add(col*90, row*90);
 					drawnKey = true;
 					

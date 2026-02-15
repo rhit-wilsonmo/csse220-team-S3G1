@@ -48,12 +48,7 @@ public class GameWindow {
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		frame.add(startScreen);
-		if () {
-			frame.getContentPane().removeAll();		
-			frame.getContentPane().add(new GameComponent(model));
-			frame.getContentPane().repaint();
-			}
+
 		
 //		frame.setContentPane(cards);
 //		CardLayout cl = (CardLayout) cards.getLayout();
@@ -68,7 +63,7 @@ public class GameWindow {
 ////			frame.remove(startScreen);
 //		});
 		
-//		frame.add(new GameComponent(model));
+		frame.add(new GameComponent(model));
 //		frame.repaint();
 //		
 		

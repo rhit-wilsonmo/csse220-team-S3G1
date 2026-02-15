@@ -19,6 +19,7 @@ import javax.swing.JComponent;
 import javax.swing.Timer;
 
 import model.GameModel;
+import other.EndScreen;
 import other.Gem;
 import other.Key;
 import other.Lives;
@@ -43,6 +44,7 @@ public class GameComponent extends JComponent{
 	private ArrayList<Gem> gems = new ArrayList<>();
 	private Key key = new Key(0, 0);
 	private ArrayList<Lives> life_arr = new ArrayList<>();
+	private EndScreen ending = new EndScreen();
 	private GameModel model;
 	private Timer timer, timer1;
 	
@@ -132,6 +134,10 @@ public class GameComponent extends JComponent{
 //				timer1.stop();
 				currentLevel+=1;
 				reset = false;
+				
+//				if(levels.get(currentLevel)[bub_y/SIZE][bub_x/SIZE]==EXITNUM && key.isHaveKey() && currentLevel == 2) {
+//					
+//				}
 //				levelName = "level_" + currentLevel;
 				// model.filename = levelName;
 //				model.nextLevel(currentLevel);
@@ -275,8 +281,12 @@ public class GameComponent extends JComponent{
 //		model.drawMap(g2);
 		if(currentLevel == 1) {
 			model.loadLevel_HardCode(g2, bubbles, trolls, gems, key, model.maze_level_1);
+			bubbles.loadSpriteOnce();
+			bubbles.draw(g2);
 		} else if(currentLevel == 2) {
 //			System.out.print(bubbles.getX() + " " + bubbles.getY());
+			bubbles.loadSpriteOnce();
+			bubbles.draw(g2);
 			repaint();
 			if (reset==false) {
 				model.reset();
@@ -290,12 +300,19 @@ public class GameComponent extends JComponent{
 			model.loadLevel_HardCode(g2, bubbles, trolls, gems, key, model.maze_level_2);
 //			timer.start();
 //			timer1.start();
+		} else if (currentLevel == 3) {
+			ending.showEnd(g2);
+			trolls.removeAll(trolls);
+			gems.removeAll(gems);
+//			bubbles.delete(g2);
+			
 		}
 //		model.loadLevel_HardCode(g2, bubbles, trolls, gems);
-		bubbles.loadSpriteOnce();
-		bubbles.draw(g2);
+//		bubbles.loadSpriteOnce();
+//		bubbles.draw(g2);
 		for (Troll troll : trolls) {
 			troll.draw(g2);
+			System.out.println(trolls);
 		}
 		for (Gem gem: gems) {
 			gem.draw(g2);
@@ -351,9 +368,10 @@ public class GameComponent extends JComponent{
 		model.reset();
 		trolls.removeAll(trolls);
 		gems.removeAll(gems);
-		key.setKey();
+//		key.setKey();
 		model.initialize_HardCode(bubbles, trolls, gems, key, model.maze_level_1);
 		model.loadLevel_HardCode(getGraphics(), bubbles, trolls, gems, key, model.maze_level_1);
+		currentLevel = 1;
 		
 		
 //		troll = new Troll(90,90);

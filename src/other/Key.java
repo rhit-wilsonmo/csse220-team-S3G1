@@ -12,8 +12,8 @@ import model.GameModel;
 public class Key {
 	private int x;
 	private int y;
-	private static final int KEY_WIDTH = 45;
-	private static final int KEY_HEIGHT =45;
+	private static final int KEY_WIDTH = 60;
+	private static final int KEY_HEIGHT =60;
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
 	private boolean key = false;
@@ -39,7 +39,7 @@ public class Key {
 			triedLoad =true;
 			try {
 				
-				sprite = ImageIO.read(Key.class.getResource("game_heart.png"));
+				sprite = ImageIO.read(Key.class.getResource("key.png"));
 			}
 			catch (IOException | IllegalArgumentException ex) {
 				sprite = null;
