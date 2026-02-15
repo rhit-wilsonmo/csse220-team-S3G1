@@ -28,7 +28,7 @@ public class GameWindow {
 	public static void show() {
 		// Minimal model instance (empty for now, by design)
 		GameModel model = new GameModel();
-//		JPanel cards = new JPanel(new CardLayout());
+		JPanel cards = new JPanel(new CardLayout());
 //		StartScreen startScreen = new StartScreen();
 //		
 //		cards.add(startScreen, "START");
