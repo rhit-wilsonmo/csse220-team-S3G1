@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import model.GameModel;
+
 public class Key {
 	private int x;
 	private int y;
@@ -36,7 +38,8 @@ public class Key {
 			if (triedLoad) return;
 			triedLoad =true;
 			try {
-				sprite = ImageIO.read(Gem.class.getResource("game_heart.png"));
+				
+				sprite = ImageIO.read(Key.class.getResource("game_heart.png"));
 			}
 			catch (IOException | IllegalArgumentException ex) {
 				sprite = null;
@@ -74,7 +77,7 @@ public class Key {
 		}//getBounds
 		
 		public void setKey() {
-			this.key = true;
+			this.key = !this.key;
 		}
 		
 		public boolean isHaveKey() {

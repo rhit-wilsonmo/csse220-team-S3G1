@@ -6,11 +6,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 import other.Gem;
@@ -39,14 +42,14 @@ public class GameModel extends JComponent{
 	public int[][] maze_level_1 = {
 			{1,5,1,1,1,1,1,1,1,1},
 			{1,0,1,1,0,0,0,0,0,1},
-			{1,0,0,0,1,1,0,1,0,1},
-			{1,0,1,2,0,1,1,1,0,1},
+			{1,0,0,0,1,1,6,1,0,1},
+			{1,0,1,0,0,1,1,1,0,1},
 			{1,0,1,1,0,0,0,0,0,1},
 			{1,0,3,1,1,1,1,1,0,1},
 			{1,1,1,1,1,1,1,1,0,1},
 			{1,4,0,0,0,0,0,1,0,1},
 			{1,3,1,1,0,1,0,0,0,1},
-			{1,1,1,1,0,1,1,1,1,1},
+			{1,1,1,1,2,1,1,1,1,1},
 			
 	};
 	
@@ -101,6 +104,9 @@ public class GameModel extends JComponent{
 	public boolean level_3 = false;
 	public String fileName = "level_1";
 //	public String file = "level1.txt";
+	
+	private static BufferedImage sprite = null;
+	private static boolean triedLoad = false;
 	
 	
 	private int exit_row;
@@ -168,17 +174,10 @@ public class GameModel extends JComponent{
 		}
 		return count;
 	}
-	public void loadLevel_HardCode(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem,Key key, int [][] maze_level) {
+	public void initialize_HardCode(Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem,Key key, int [][] maze_level) {
 		int countG = countGems(maze_level); //overwrite
 		for(int row=0; row<maze_level.length;row++) {
 			for (int col=0; col<maze_level[row].length; col++) {
-				if (maze_level[row][col]==1) {
-					g2.setColor(Color.BLACK);
-					g2.fillRect(col*90, row*90, 90, 90);
-				}
-				if (maze_level[row][col]==0) {
-					continue;
-				}
 				if (maze_level[row][col]==2 && drawnBubbles==false) {
 					 p.setX(col*90);
 					 p.setY(row*90);
@@ -193,28 +192,68 @@ public class GameModel extends JComponent{
 					if (gem.size()==countG) {
 						drawnGems = true;
 					}
-					
 				}
 				if (maze_level[row][col]==4&& drawnTrolls==false) {
 					troll.add(new Troll(col*90, row*90));
 					drawnTrolls=true;
 				}
-				if (maze_level[row][col]==5&& drawnExit==false) {
-					exit_row = row;
-					exit_col = col;
-					g2.setColor(Color.YELLOW);
-					g2.fillRect(col*90, row*90, 90, 90);
-//					drawnExit = true;
-				}
 				if (maze_level[row][col]==6 && drawnKey==false) {
-//					System.out.println(col + " " + row);
-//					System.out.println(drawnGems)
-					System.out.println("this is a key area");
 					key.add(col*90, row*90);
-//					key.add(row, col);
 					drawnKey = true;
 					
 				}
+				
+			}
+		}
+		loadSpriteOnce();
+	}
+	public void loadLevel_HardCode(Graphics g2, Player1 p, ArrayList<Troll> troll, ArrayList<Gem> gem,Key key, int [][] maze_level) {
+		int countG = countGems(maze_level); //overwrite
+		for(int row=0; row<maze_level.length;row++) {
+			for (int col=0; col<maze_level[row].length; col++) {
+				if (maze_level[row][col]==0) {
+					continue;
+				}
+				if (maze_level[row][col]==1) {
+					g2.setColor(Color.BLACK);
+					g2.fillRect(col*90, row*90, 90, 90);
+				}
+//				if (maze_level[row][col]==2 && drawnBubbles==false) {
+//					 p.setX(col*90);
+//					 p.setY(row*90);
+////					 p.set_start(col*90, row*90);
+//					 drawnBubbles = true;
+//				}
+//				if (maze_level[row][col]==3 && drawnGems==false) {
+////					System.out.println(col + " " + row);
+////					System.out.println(drawnGems)
+//					gem.add(new Gem(col*90, row*90));
+////					drawnGems=true;
+//					if (gem.size()==countG) {
+//						drawnGems = true;
+//					}
+//				}
+//				if (maze_level[row][col]==4&& drawnTrolls==false) {
+//					troll.add(new Troll(col*90, row*90));
+//					drawnTrolls=true;
+//				}
+				if (maze_level[row][col]==5) {
+					exit_row = row;
+					exit_col = col;
+//					System.out.println(sprite);
+					if (sprite != null) {
+						g2.drawImage(sprite, col*90, row*90, 90, 90 , null);
+					} else {
+						g2.setColor(Color.MAGENTA);
+						g2.fillRect(col*90, row*90, 90, 90);
+					}
+//					drawnExit = true;
+				}
+//				if (maze_level[row][col]==6 && drawnKey==false) {
+//					key.add(col*90, row*90);
+//					drawnKey = true;
+//					
+//				}
 				
 			}
 		}
@@ -349,11 +388,24 @@ public class GameModel extends JComponent{
 		drawnBubbles = false;
 		drawnTrolls = false;
 		drawnGems= false;
+		drawnKey = false;
 	}
 	
 	public int get_tile(int getRow, int getCol, int[][] maze) {
 		return maze[getCol][getRow];
 	}
+	
+	public void loadSpriteOnce() {
+	    
+		if (triedLoad) return;
+		triedLoad =true;
+		try {
+			sprite = ImageIO.read(GameModel.class.getResource("illust.png"));
+		}
+		catch (IOException | IllegalArgumentException ex) {
+			sprite = null;
+		}
+	}//loadSpriteOnce
 	
 //	public int get_exitRow() {
 //		return exit_row;

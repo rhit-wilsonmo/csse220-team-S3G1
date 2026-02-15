@@ -62,7 +62,7 @@ public class GameComponent extends JComponent {
 	private Lives lives = new Lives();
 	private JButton resetButton;
 	
-	private int currentLevel = 2;
+	private int currentLevel = 1;
 	private String levelName;
 	
 	public HashMap<Integer, int[][]> levels = new HashMap<>();
@@ -82,8 +82,8 @@ public class GameComponent extends JComponent {
 	public GameComponent(GameModel model) {
 		this.model = model;
 		
-//		levels.put(1, model.maze_level_1);
-		levels.put(3, model.maze_level_1);
+		levels.put(1, model.maze_level_1);
+//		levels.put(3, model.maze_level_1);
 		levels.put(2, model.maze_level_2);
 		life_arr.add(lives);
 		life_arr.add(lives);
@@ -97,6 +97,8 @@ public class GameComponent extends JComponent {
 	    resetButton.setVisible(false); // invisible
 	    resetButton.addActionListener(e -> resetGame());
 	    this.add(resetButton);
+	    
+	    model.initialize_HardCode(bubbles, trolls, gems, key, model.maze_level_1);
 	    
 	    // For bubbles
 		timer= new Timer(20,e -> {
@@ -126,8 +128,8 @@ public class GameComponent extends JComponent {
 //			System.out.println(model.get_tile((bub_x/SIZE), (bub_y/SIZE), currentLevel));
 			if(levels.get(currentLevel)[bub_y/SIZE][bub_x/SIZE]==EXITNUM && key.isHaveKey()) {
 				System.out.println("Next Level!");
-				timer.stop();
-				timer1.stop();
+//				timer.stop();
+//				timer1.stop();
 				currentLevel+=1;
 				reset = false;
 //				levelName = "level_" + currentLevel;
@@ -268,18 +270,21 @@ public class GameComponent extends JComponent {
 	super.paintComponent(g);
 	Graphics2D g2 = (Graphics2D) g;
 //		model.drawMap(g2);
-		if(currentLevel == 2) {
-			model.loadLevel_HardCode(g2, bubbles, trolls, gems, key, model.maze_level_2);
-		} else if(currentLevel == 3) {
+		if(currentLevel == 1) {
+			model.loadLevel_HardCode(g2, bubbles, trolls, gems, key, model.maze_level_1);
+		} else if(currentLevel == 2) {
 //			System.out.print(bubbles.getX() + " " + bubbles.getY());
 			repaint();
 			if (reset==false) {
 				model.reset();
 				trolls.removeAll(trolls);
 				gems.removeAll(gems);
+				key.setKey();
+				model.initialize_HardCode(bubbles, trolls, gems, key, model.maze_level_2);
+				timer1.start();
 				reset=true;
 			}
-			model.loadLevel_HardCode(g2, bubbles, trolls, gems, key, model.maze_level_1);
+			model.loadLevel_HardCode(g2, bubbles, trolls, gems, key, model.maze_level_2);
 //			timer.start();
 //			timer1.start();
 		}
@@ -343,6 +348,8 @@ public class GameComponent extends JComponent {
 		model.reset();
 		trolls.removeAll(trolls);
 		gems.removeAll(gems);
+		key.setKey();
+		model.initialize_HardCode(bubbles, trolls, gems, key, model.maze_level_1);
 		model.loadLevel_HardCode(getGraphics(), bubbles, trolls, gems, key, model.maze_level_1);
 		
 		
