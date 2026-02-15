@@ -33,7 +33,7 @@ import other.Troll;
  * @author Ayaka, Adeline, Madison
  * <br>Purpose: Runs the game; key listener, painting the screen, timers, resetting the game
  */
-public class GameComponent extends JComponent {
+public class GameComponent extends JComponent{
 	
 	private static final int WIDTH = 900;
 	private static final int HEIGHT = 900;
@@ -247,6 +247,9 @@ public class GameComponent extends JComponent {
 		        		//Madison: Score goes up by one every time bubbles picks up a gem
 		        			score.addScore();
 		        		}
+//		        	if (e.getKeyCode()== KeyEvent.VK_SPACE) {
+//		        		
+//		        	}
 		        	}
 		        }
 		    

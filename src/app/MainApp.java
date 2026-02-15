@@ -2,7 +2,9 @@ package app;
 
 import javax.swing.SwingUtilities;
 
+
 import ui.GameWindow;
+import ui.Controller;
 
 /**
  * Class: MainApp
@@ -19,6 +21,7 @@ public class MainApp {
 		}//main
 	
 	public void run() {
+		
 		GameWindow.show();
 		// Hint: MainApp should not contain game logic or drawing code
 		//Hello World

@@ -2,7 +2,9 @@ package ui;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.lang.ModuleLayer.Controller;
+import java.awt.Component;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,10 +30,13 @@ public class GameWindow {
 	public static void show() {
 		// Minimal model instance (empty for now, by design)
 		GameModel model = new GameModel();
+		StartScreen startScreen = new StartScreen();
 		JPanel cards = new JPanel(new CardLayout());
-//		StartScreen startScreen = new StartScreen();
-//		
+		
+		
+		
 //		cards.add(startScreen, "START");
+		
 		
 		
 		
@@ -40,17 +45,37 @@ public class GameWindow {
 
 		JFrame frame = new JFrame("CSSE220 Final Project");
 		
+		
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		frame.add(startScreen);
+		if () {
+			frame.getContentPane().removeAll();		
+			frame.getContentPane().add(new GameComponent(model));
+			frame.getContentPane().repaint();
+			}
+		
 //		frame.setContentPane(cards);
 //		CardLayout cl = (CardLayout) cards.getLayout();
 //		cl.show(cards, "START");
-//		startScreen.getStartButton().addActionListener(e -> {
-//			
+//		startScreen.getStartButton().addActionListener(e ->{
+////			frame.add(startScreen);
+////			frame.remove(startScreen);
+////			frame.getContentPane().removeAll();
+////			frame.repaint();
+//			frame.getContentPane().add(new GameComponent(model));
+//			frame.getContentPane().repaint();
+////			frame.remove(startScreen);
 //		});
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.add(new Score());
+		
+//		frame.add(new GameComponent(model));
+//		frame.repaint();
+//		
+		
+		
 
 
-		frame.add(new GameComponent(model));
+//		frame.add(new GameComponent(model));
 		
 
 
