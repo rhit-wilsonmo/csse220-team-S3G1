@@ -285,7 +285,7 @@ public class GameComponent extends JComponent {
 		if (c == 1)
 			return true;
 		return false;
-	}
+	}//isWall
 
 	/**
 	 * Resets the game to the beginning
