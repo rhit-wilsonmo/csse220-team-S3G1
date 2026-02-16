@@ -10,161 +10,142 @@ import javax.imageio.ImageIO;
 
 /**
  * Class: Player1
- * @author Ayaka, Madison, Adeline
- * Purpose: Player class, loads image for player, sets how much the player moves per arrow press, bounds for collisions
+ * 
+ * @author Ayaka, Madison, Adeline Purpose: Player class, loads image for
+ *         player, sets how much the player moves per arrow press, bounds for
+ *         collisions
  */
-public class Player1 implements Collidable{
+public class Player1 implements Collidable {
 
 	private int start_y;
 	private int start_x;
 	private int x;
 	private int y;
 	private static final int PLAYER_WIDTH = 90;
-	private static final int PLAYER_HEIGHT=90;
+	private static final int PLAYER_HEIGHT = 90;
 	private static final int DX = 90;
 	private static final int DY = 90;
 	private static BufferedImage sprite = null;
 	private static boolean triedLoad = false;
-	
-	//for check whether wall is or not
-	private int nextX;
-	private int nextY;
-	
+
 	public Player1(int start_x, int start_y) {
 		super();
 		this.start_y = start_y;
 		this.start_x = start_x;
 		this.x = start_x;
 		this.y = start_y;
-		
-//		loadSpriteOnce();
+
 	}
-//	public void set_start(int x, int y) {
-//		this.start_x = x;
-//		this.start_y = y;
-//	}
-//	
-	/** 
-	* Loads the image
-	* code from ball
-	* @return void
-	*/
+
+	/**
+	 * Loads the image code from ball
+	 * 
+	 * @return void
+	 */
 	public void loadSpriteOnce() {
 		// TODO Auto-generated method stub
-		if (triedLoad) return;
-		triedLoad =true;
+		if (triedLoad)
+			return;
+		triedLoad = true;
 		try {
 			sprite = ImageIO.read(Player1.class.getResource("unicorn_image.png"));
-		}
-		catch (IOException | IllegalArgumentException ex) {
+		} catch (IOException | IllegalArgumentException ex) {
 			sprite = null;
 		}
 	}
-	
-	/** 
-	* Draws the image
-	* code from ball
-	* @param java graphics
-	* @return void
-	*/
+
+	/**
+	 * Draws the image code from ball
+	 * 
+	 * @param java graphics
+	 * @return void
+	 */
 	public void draw(Graphics2D g2) {
 		if (sprite != null) {
-			g2.drawImage(sprite, x, y, PLAYER_WIDTH , PLAYER_HEIGHT, null);
-		}
-		else {
+			g2.drawImage(sprite, x, y, PLAYER_WIDTH, PLAYER_HEIGHT, null);
+		} else {
 			g2.setColor(Color.MAGENTA);
 			g2.fillRect(x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
 		}
 	}
-	public void delete(Graphics2D g2) {
-		sprite =null;
-	}
-	
-	/** 
-	* moves player right
-	* @return void
-	*/
+
+	/**
+	 * moves player right
+	 * 
+	 * @return void
+	 */
 	public void move_x_right() {
-		x+= DX;
+		x += DX;
 	}
-	
-	/** 
-	* moves player left
-	* @return void
-	*/
+
+	/**
+	 * moves player left
+	 * 
+	 * @return void
+	 */
 	public void move_x_left() {
-		x-= DX;
+		x -= DX;
 	}
-	
-	/** 
-	* moves player down
-	* @return void
-	*/
+
+	/**
+	 * moves player down
+	 * 
+	 * @return void
+	 */
 	public void move_y_down() {
 		y += DY;
 	}
-	
-	/** 
-	* moves player up
-	* @return void
-	*/
+
+	/**
+	 * moves player up
+	 * 
+	 * @return void
+	 */
 	public void move_y_up() {
 		y -= DY;
 	}
-	
-	/** 
-	* moves player back after bounce
-	* may delete
-	* @return void
-	*/
-	public void bounceBack(){
-		x=x-100;
-	}
 
-	/** 
-	* Checks to see if player is in the bounds of the frame
-	* @param WorldWidth		value of the frame width
-	* @param WorldHeight	value of the frame height
-	* @return void
-	*/
+	/**
+	 * Checks to see if player is in the bounds of the frame
+	 * 
+	 * @param WorldWidth  value of the frame width
+	 * @param WorldHeight value of the frame height
+	 * @return void
+	 */
 	@Override
 	public void update(int WorldWidth, int WorldHeight) {
-		
+
 		// x
 		if (x < 0) {
 			x = 0;
 		}
-		
+
 		// y
 		if (y < 0) {
-			y=0;
+			y = 0;
 		}
-		
-		//xl
+
+		// xl
 		if (x + PLAYER_WIDTH > WorldWidth) {
-			x = WorldWidth- PLAYER_WIDTH;
+			x = WorldWidth - PLAYER_WIDTH;
 		}
-		
-		//yl
+
+		// yl
 		if (y + PLAYER_HEIGHT > WorldHeight) {
-			y = WorldHeight- PLAYER_HEIGHT;
+			y = WorldHeight - PLAYER_HEIGHT;
 		}
 	}
 
-	/** 
-	* Gets bounding box
-	* @return Rectangle
-	*/
+	/**
+	 * Gets bounding box
+	 * 
+	 * @return Rectangle
+	 */
 	public Rectangle getBounds() {
-	    Rectangle r = new Rectangle(
-				    x - PLAYER_WIDTH,
-				    y - PLAYER_HEIGHT,
-				    PLAYER_WIDTH * 2,
-				    PLAYER_HEIGHT * 2
-	    );
-	    return r;
-	}	
-	
+		Rectangle r = new Rectangle(x - PLAYER_WIDTH, y - PLAYER_HEIGHT, PLAYER_WIDTH * 2, PLAYER_HEIGHT * 2);
+		return r;
+	}
+
 	public int getX() {
 		return x;
 	}
@@ -196,7 +177,5 @@ public class Player1 implements Collidable{
 	public void setStart_x(int start_x) {
 		this.start_x = start_x;
 	}
-	
-	
 
 }

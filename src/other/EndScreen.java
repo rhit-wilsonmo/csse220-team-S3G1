@@ -12,7 +12,7 @@ public class EndScreen {
 		g2.fillRect(225, 225, 450, 450);
 		g2.setColor(Color.BLACK);
 		g2.setFont(new Font("Arial", Font.BOLD, 50));
-		g2.drawString("YOU WIN!!!!",320, 450);
+		g2.drawString("YOU WIN!!!!", 320, 450);
 
 	}
 
