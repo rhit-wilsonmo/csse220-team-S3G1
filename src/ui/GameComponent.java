@@ -271,7 +271,7 @@ public class GameComponent extends JComponent {
 
 		// show game over after life is 0
 
-	}
+	}//paintComponent
 
 	/**
 	 * Determines if an entity (player or troll) can move through the next block
