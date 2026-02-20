@@ -92,8 +92,10 @@ public class GameComponent extends JComponent {
 		resetButton.setVisible(false); // invisible
 		resetButton.addActionListener(e -> resetGame());
 		this.add(resetButton);
-
+		
+		if (currentLevel <=2) {
 		model.initialize_HardCode(bubbles, trolls, gems, key, life, model.maze_level_1);
+		}
 
 		// For bubbles
 		timer = new Timer(20, e -> {
@@ -110,7 +112,7 @@ public class GameComponent extends JComponent {
 
 				}
 			}
-			if (levels.size() >= 1 && levels.get(currentLevel)[bub_y / SIZE][bub_x / SIZE] == EXITNUM
+			if (levels.size() >= 1 && currentLevel <=2 && levels.get(currentLevel)[bub_y / SIZE][bub_x / SIZE] == EXITNUM
 					&& key.isHaveKey()) {
 				currentLevel += 1;
 				reset = false;
@@ -297,7 +299,9 @@ public class GameComponent extends JComponent {
 		model.reset();
 		trolls.removeAll(trolls);
 		gems.removeAll(gems);
-		key.setKey();
+		if(key.isHaveKey()) {
+			key.setKey();
+		}
 		model.initialize_HardCode(bubbles, trolls, gems, key, life, model.maze_level_1);
 		model.loadLevel_HardCode(getGraphics(), bubbles, trolls, gems, key, model.maze_level_1);
 		currentLevel = 1;
